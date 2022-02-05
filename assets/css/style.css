@@ -1,21 +1,71 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html, * {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+}
+
+main {
+  height: 100vh;
+}
+
 p{
   color: blue;
 }
 
 header{
-  height: 60px;
+  height: 5vh;
   width: 100%;
-  /* margin:auto; */
-  background: darkblue;
-  color:whitesmoke;
+  /* margin: auto; */
+  background:linear-gradient(to right, rgb(58, 117, 99), rgb(56, 239, 125));
+  border-bottom: 1px solid #888;
+  box-shadow:
+  3.4px 3.4px 2.7px rgba(0, 0, 0, 0.022),
+  8.7px 8.7px 6.9px rgba(0, 0, 0, 0.031),
+  17.7px 17.7px 14.2px rgba(0, 0, 0, 0.039),
+  36.5px 36.5px 29.2px rgba(0, 0, 0, 0.048),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+  color: #fff;
+  position: relative;
+}
+
+
+div#title-content {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#title-content i {
+  font-size: 1.5em;
+}
+
+i {
+  margin-right: .5rem;
+}
+
+#title-content h1 {
+  font-size: 1.5em;
+  display: inline;
 }
 
 body{
-  margin:auto;
+  margin: auto;
 }
+
 #map { 
-  position:absolute;
-  left:0px; right:0px; top:60px; bottom:0px;
+  position: absolute;
+  left:0px; right:0px; top:5vh; bottom:0px;
   /* height: 500px; */
   width: 100%;
   /* top:0;
@@ -23,13 +73,45 @@ body{
   z-index: -1;
 }
 
-.overlay{
-  position:relative;
+.overlay {
+  height: 90%;
+  position: relative;
 }
 
 #leftFloat{
-  position:absolute;
-  top:50px; 
+  position: absolute;
+  top: 50px; 
   left: 25px;
   background-color: grey;
+}
+
+button#data-refresh-btn {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+div#bottom-right-btn-group {
+  position: absolute;
+  right: 10px;
+  top: 89vh;
+  z-index: 10;
+}
+
+button.btn-primary {
+  background-color: #107e88;
+  color: #fff;
+  border: 1px solid #888;
+}
+
+button.btn-secondary {
+  background-color: #3a7563;
+  color: #fff;
+}
+
+button.btn-tertiary {
+  background-color: #586e72;
+  color: #fff;
 }
