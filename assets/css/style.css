@@ -3,7 +3,7 @@ p{
 }
 
 header{
-  height: 60px;
+  height: 3vh;
   width: 100%;
   /* margin:auto; */
   background: darkblue;
@@ -13,11 +13,13 @@ header{
 body{
   margin:auto;
 }
+
 #map { 
   position:absolute;
-  left:0px; right:0px; top:60px; bottom:0px;
+  /* left:0px; right:0px; top:60px; bottom:0px; */
   /* height: 500px; */
   width: 100%;
+  height: 95vh;
   /* top:0;
   bottom:0; */
   z-index: -1;
@@ -29,7 +31,31 @@ body{
 
 #leftFloat{
   position:absolute;
-  top:50px; 
-  left: 25px;
+  top: 3vh; 
+  left: 5vh;
   background-color: grey;
+}
+
+.hamburger {
+  position: absolute;
+  top: 5vh;
+  right: 5vh;
+  background-color: brown;
+  z-index: 2;
+  border-radius: 10%;
+}
+
+#option-menu {
+  z-index: 1;
+  position: absolute;
+  display: none;
+  background-color: grey;
+  border-radius: 10%;
+  height: 25vh;
+  width: 15vh;
+  top: 5vh;
+  right: 5vh;
+}
+.hide {
+  display: none;
 }

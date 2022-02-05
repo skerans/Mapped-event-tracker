@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
   <header>
-      This is the header
-  </header> 
+    This is the header
+  </header>
 
-<main class="overlay">
+  <main class="overlay">
 
+    <a href="javascript:void(0);" class="icon hamburger" onclick="openMenu()">
+      <i class="fa fa-bars"></i>
+    </a>
+    <form id="option-menu" class="pure-form">
 
+      <label for="checkbox-radio-option-one" class="pure-checkbox">
+        <input type="checkbox" id="checkbox-radio-option-one" value="" /> Here&#x27;s option one.
+      </label>
+      <label for="checkbox-radio-option-two" class="pure-checkbox pure-u 5-5">
+        <input type="checkbox" id="checkbox-radio-option-two" value="" /> Here&#x27;s option two.
+      </label>
+      <label for="checkbox-radio-option-three" class="pure-checkbox">
+        <input type="checkbox" id="checkbox-radio-option-three" value="" /> Here&#x27;s option three.
+      </label>
+    </form>
 
-  <aside id="leftFloat">
+    <aside id="leftFloat">
       <p>Floated Box Absolute Position</p>
       <h3>20 most recent events</h3>
       <p id="eventList"></p>
-    </aside> 
+    </aside>
 
-    
-</main>
+  </main>
 
-<div id="map"></div>
+  <div id="map"></div>
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
