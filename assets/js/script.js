@@ -71,13 +71,24 @@ $( document ).ready(function() {
 
 
 
-var map = L.map('map').setView([51.505, -0.09], 13);
-
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'your.mapbox.access.token'
+var map = L.map('map').setView([39.85, -104.67], 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+L.marker([39.84, -104.68])
+        .addTo(map)
+        .bindPopup("TEST-MARKER");
+
+L.marker([39.85, -104.69])
+        .addTo(map)
+        .bindPopup("TEST-MARKER");
+
+var latlngs = [
+         [39.84, -104.68],
+         [39.85, -104.69],
+         [39.83, -104.69]
+      ];
+L.polygon(latlngs, {color: 'orange', weight: 1})
+.addTo(map);
