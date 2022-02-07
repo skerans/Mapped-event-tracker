@@ -152,17 +152,3 @@ $('.modal-container').on('click', function (evt) {
 })
 
 
-//Date
-document.getElementById("mytext").value = "My value";
-
-//search bar
-// let searchBtn = document.getElementById("#search-btn");
-// let search = document.getElementById("#search");
-
-// function switchDisplay() {
-// if(search.textContent !== null) {
-//    searchBtn.style.display = "block"
-// } else {
-//    searchBtn.style.display = "none"
-// }
-// }
