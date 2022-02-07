@@ -81,9 +81,11 @@ body{
 
 #leftFloat{
   position: absolute;
-  top: 50px; 
-  left: 25px;
-  background-color: grey;
+  top: 2vh; 
+  left: 5vh;
+  background-color: transparent;
+  border-radius: 10px;
+
 }
 
 button#data-refresh-btn {
@@ -141,3 +143,5 @@ button.btn-tertiary {
 .hide {
   display: none;
 }
+
+/* search bar*/

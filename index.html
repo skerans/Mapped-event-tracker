@@ -10,16 +10,17 @@
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
   <script src="https://kit.fontawesome.com/e9e3841673.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-
+  <!-- Jquery -->
 
   <!-- Link to Pure CSS Library -->
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+    integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
@@ -29,20 +30,24 @@
       <i class="far fa-globe-americas"></i>
       <h1>Mapped Event Tracker</h1>
     </div>
-      
-  </header> 
+
+  </header>
 
   <main class="overlay">
 
     <a href="javascript:void(0);" class="icon hamburger" onclick="openMenu()">
       <i class="fa fa-bars"></i>
     </a>
-    <form id="option-menu" class="pure-form">
+    <form id="option-menu" class="pure-form pure-form-aligned">
+      <label for="from">From</label>
+      <input type="date" id="from" name="from" class="from pure-u-5-5" value="">
+      <label for="to">to</label>
+      <input type="date" id="to" name="to" class="to pure-u-5-5">
 
       <label for="checkbox-radio-option-one" class="pure-checkbox">
         <input type="checkbox" id="checkbox-radio-option-one" value="" /> Here&#x27;s option one.
       </label>
-      <label for="checkbox-radio-option-two" class="pure-checkbox pure-u 5-5">
+      <label for="checkbox-radio-option-two" class="pure-checkbox">
         <input type="checkbox" id="checkbox-radio-option-two" value="" /> Here&#x27;s option two.
       </label>
       <label for="checkbox-radio-option-three" class="pure-checkbox">
@@ -50,13 +55,12 @@
       </label>
     </form>
 
-    <aside id="leftFloat">
-        <p>Floated Box Absolute Position</p>
-        <h3>20 most recent events</h3>
-        <p id="eventList"></p>
-      </aside> 
+    <form id="leftFloat" class="pure-form">
+      <input type="text" class="pure-input-2-3" placeholder="search" />
+      <button type="submit" class="pure-button">Search</button>
+    </form>
 
-      <!-- nm working area buttons -->
+    <!-- nm working area buttons -->
 
     <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
 
@@ -64,10 +68,10 @@
       <button class="pure-button btn-tertiary" id='help-btn'><i class="far fa-map-marker-question"></i>Help</button>
       <button class="pure-button btn-secondary" id='about-btn'><i class="far fa-info"></i>About</button>
     </div>
-      
+
   </main>
 
- 
+
 
   <div id="map"></div>
 
@@ -77,7 +81,6 @@
 
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 

@@ -50,24 +50,6 @@
 console.log("hello world");
 
 
-// $( document ).ready(function() {
-//   $.getJSON( "https://eonet.sci.gsfc.nasa.gov/api/v3/events", {
-//       status: "open",
-//       limit: 20
-//   })
-//   .done(function( data ) {
-//       $.each( data.events, function( key, event ) {
-//           $( "#eventList" ).append(
-//               "<dt>" + event.id + ": " + event.title + "</dt>"
-//           );
-//           if (event.description != null &&event.description.length) {
-//               $( "#eventList" ).append(
-//                   "<dd><em>" + event.description + "</em></dd>"
-//               );
-//           }
-//       });
-//   });
-// }); 
 
 //hamburer button
 let optionMenu = document.getElementById("option-menu");
@@ -116,3 +98,18 @@ var popup = L.popup()
     .setContent("I am a standalone popup.");
 
 
+
+//Date
+document.getElementById("mytext").value = "My value";
+
+//search bar
+// let searchBtn = document.getElementById("#search-btn");
+// let search = document.getElementById("#search");
+
+// function switchDisplay() {
+// if(search.textContent !== null) {
+//    searchBtn.style.display = "block"
+// } else {
+//    searchBtn.style.display = "none"
+// }
+// }
