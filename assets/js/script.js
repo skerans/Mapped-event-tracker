@@ -51,6 +51,27 @@ console.log("hello world");
 
 
 
+
+
+// $( document ).ready(function() {
+//   $.getJSON( "https://eonet.sci.gsfc.nasa.gov/api/v3/events", {
+//       status: "open",
+//       limit: 20
+//   })
+//   .done(function( data ) {
+//       $.each( data.events, function( key, event ) {
+//           $( "#eventList" ).append(
+//               "<dt>" + event.id + ": " + event.title + "</dt>"
+//           );
+//           if (event.description != null &&event.description.length) {
+//               $( "#eventList" ).append(
+//                   "<dd><em>" + event.description + "</em></dd>"
+//               );
+//           }
+//       });
+//   });
+// }); 
+
 //hamburer button
 let optionMenu = document.getElementById("option-menu");
 
@@ -88,15 +109,47 @@ var latlngs = [
 L.polygon(latlngs, {color: 'orange', weight: 1})
 .addTo(map);
 
-map.addLayer()
+// map.addLayer()
 
-//control layers
+// //control layers
 
-var optionsOverlay = L.mapOverlay()
+// var optionsOverlay = L.mapOverlay()
 
-var popup = L.popup()
-    .setContent("I am a standalone popup.");
+// var popup = L.popup()
+//     .setContent("I am a standalone popup.");
 
+
+
+function closeModal() {
+   $('.modal').addClass('hidden');
+   $('header, #map, main.overlay').removeClass('blur');
+}
+
+function openModal(evt) {
+   $('.modal').removeClass('hidden');
+   $('header, #map, main.overlay').addClass('blur');
+
+   let selectedModal = evt.target.getAttribute('data-modal');
+   
+   $('.modal-header h2').text(selectedModal);
+   };
+
+
+////// EVENT HANDLERS //////
+
+//Open Modal
+$('.modal-btn').on('click', function (evt) {
+   openModal(evt);
+});
+
+// Close Modal
+$('#modal-close-btn').on('click', closeModal);
+$('.modal-background').on('click', closeModal);
+
+// Prevents clicking through the modal container and onto to back to close it
+$('.modal-container').on('click', function (evt) {
+   evt.stopPropagation();
+})
 
 
 //Date

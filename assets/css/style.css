@@ -11,23 +11,18 @@ html, * {
 }
 
 body {
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Sarabun', sans-serif;
 }
 
 main {
   height: 100vh;
 }
 
-p{
-  color: blue;
-}
-
 header{
-  height: 5vh;
+  height: 7.5vh;
   width: 100%;
-  /* margin: auto; */
-  background:linear-gradient(to right, rgb(58, 117, 99), rgb(56, 239, 125));
-  border-bottom: 1px solid #888;
+  background: #333;
+  border-bottom: 1px solid #fff;
   box-shadow:
   3.4px 3.4px 2.7px rgba(0, 0, 0, 0.022),
   8.7px 8.7px 6.9px rgba(0, 0, 0, 0.031),
@@ -48,15 +43,17 @@ div#title-content {
 
 #title-content i {
   font-size: 1.5em;
+  color: orange;
 }
 
-i {
+i:not(.fa-map-marker-question) {
   margin-right: .5rem;
 }
 
 #title-content h1 {
   font-size: 1.5em;
   display: inline;
+  font-weight: 500;
 }
 
 body{
@@ -65,13 +62,14 @@ body{
 
 #map { 
   position: absolute;
-  left:0px; right:0px; top:5vh; bottom:0px;
+  left:0px; right:0px; top:7.5vh; bottom:0px;
   /* height: 500px; */
   width: 100%;
-  height: 95vh;
+  height: 92.5vh;
   /* top:0;
   bottom:0; */
   z-index: -1;
+  
 }
 
 .overlay {
@@ -79,7 +77,7 @@ body{
   position: relative;
 }
 
-#leftFloat{
+#search-bar {
   position: absolute;
   top: 2vh; 
   left: 5vh;
@@ -90,33 +88,32 @@ body{
 
 button#data-refresh-btn {
   position: absolute;
-  left: 50%;
+  left: 60px;
   top: 10px;
-  transform: translateX(-50%);
   z-index: 10;
 }
 
 div#bottom-right-btn-group {
   position: absolute;
   right: 10px;
-  top: 89vh;
+  top: 85vh;
   z-index: 10;
 }
 
 button.btn-primary {
-  background-color: #107e88;
+  background: linear-gradient(to right, rgb(232, 0, 50), rgb(255, 75, 43));
   color: #fff;
   border: 1px solid #888;
 }
 
 button.btn-secondary {
-  background-color: #3a7563;
+  background-color: #575151;
   color: #fff;
 }
 
-button.btn-tertiary {
-  background-color: #586e72;
-  color: #fff;
+.pure-button-hover, .pure-button:focus, .pure-button:hover {
+  background-image: none;
+  background: linear-gradient(to right, rgb(232, 0, 50), rgb(255, 75, 43));
 }
 
 .hamburger {
@@ -144,4 +141,87 @@ button.btn-tertiary {
   display: none;
 }
 
-/* search bar*/
+section.modal {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+div.modal-background {
+  height: 100%;
+  width: 100%;
+  background-color: hsla(0, 0%, 20%, .7);
+  position: relative;
+  cursor: pointer;
+}
+
+div.modal-container {
+  height: 500px;
+  width: 90%;
+  max-width: 700px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #333;
+  color: #fff;
+  z-index: 10000;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #e8e8e8;
+  overflow: scroll;
+  cursor: default;
+}
+
+div.modal-header {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  overflow: scroll;
+  padding: 0 1rem;
+  background: linear-gradient(to right, rgb(232, 0, 50), rgb(255, 75, 43));
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-header i.fa-times {
+  position: absolute;
+  right: .5rem;
+  top: 55%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.modal-header h2 {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+}
+
+.modal-body {
+  padding: 0 2rem 2rem;
+}
+
+.modal-body h3 {
+  margin: 2rem 0 .75rem;
+}
+
+.modal-body p {
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+/* When modal is active - set this class to everything behind it */
+.blur {
+  filter: blur(4px);
+}
+
+

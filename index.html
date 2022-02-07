@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+  <!-- Leaflet CSS/JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin="" />
@@ -13,21 +15,33 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
   <script src="https://kit.fontawesome.com/e9e3841673.js" crossorigin="anonymous"></script>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<<<<<<< HEAD
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;500;700&display=swap" rel="stylesheet">
   <!-- Jquery -->
 
   <!-- Link to Pure CSS Library -->
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
     integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+=======
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;800&display=swap" rel="stylesheet">
+
+  <!-- Normalize & Pure CSS Libraries -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+
+  <!-- Local CSS -->
+>>>>>>> e5009b51f640e841f74fa41eb16cce6d71f43980
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
   <header>
     <div id='title-content'>
-      <i class="far fa-globe-americas"></i>
+      <i class="far fa-fire-alt"></i>
       <h1>Mapped Event Tracker</h1>
     </div>
 
@@ -55,23 +69,56 @@
       </label>
     </form>
 
-    <form id="leftFloat" class="pure-form">
-      <input type="text" class="pure-input-2-3" placeholder="search" />
-      <button type="submit" class="pure-button">Search</button>
-    </form>
 
-    <!-- nm working area buttons -->
+      <form id="search-bar" class="pure-form">
+        <input type="text" class="pure-input-2-3" placeholder="search" />
+        <button type="submit" class="pure-button">Search</button>
+      </form>
+      <!-- About/Help UI -->
+
+      <!-- Buttons -->
 
     <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
 
     <div id='bottom-right-btn-group'>
-      <button class="pure-button btn-tertiary" id='help-btn'><i class="far fa-map-marker-question"></i>Help</button>
-      <button class="pure-button btn-secondary" id='about-btn'><i class="far fa-info"></i>About</button>
+      <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
+      <button class="pure-button btn-secondary modal-btn" id='about-btn' data-modal='about'><i class="far fa-info" data-modal='about'></i>About</button>
     </div>
 
+    
+      
   </main>
 
+  <!-- Modals -->
+  <section class="modal hidden">
+    <div class="modal-background">
+      <div class="modal-container">
+        <div class="modal-header">
+          <i class="far fa-times" id='modal-close-btn'></i>
+          <h2>About</h2>
+        </div>
+        <div class="modal-body">
+          <h3>What is the Mapped Event Tracker?</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
 
+          <h3>What is the Mapped Event Tracker?</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+
+          <h3>What is the Mapped Event Tracker?</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+
+          <h3>What is the Mapped Event Tracker?</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+
+          <h3>What is the Mapped Event Tracker?</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
 
   <div id="map"></div>
 
