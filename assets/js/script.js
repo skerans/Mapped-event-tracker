@@ -49,11 +49,13 @@
 
 console.log("Start of JS");
 let eventCount = 20;
+let searchBtn = document.getElementById("search-btn");
+let searchText = document.getElementById("search-city");
+let dataRefreshBtn = document.getElementById("data-refresh-btn");
 
 
-
-
-
+//initial pull of data points from EONET
+dataPull();
 
 // $( document ).ready(function() {
 //   $.getJSON( "https://eonet.sci.gsfc.nasa.gov/api/v3/events", {
@@ -73,29 +75,6 @@ let eventCount = 20;
 //       });
 //   });
 // }); 
-
-
-
-
-//query eonet API
-let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?limit=${eventCount}&status=open`;
-fetch(queryEONET)
-.then(response => response.json())
-    .then(data => {
-      let eventData = data.events;
-      console.log(eventData);//DELETE LATER
-      console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
-//add markers to map based on eventData length
-for (let index = 0; index < eventData.length; index++) {
-var date = new Date(data.events[index].geometry[0].date);
-L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]])
-.addTo(map)
-.bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-}   
-    });
-
-console.log("API call complete");
-
 
 var map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -145,6 +124,37 @@ function openModal(evt) {
    $('.modal-header h2').text(selectedModal);
    };
 
+function dataPull(){
+   //query eonet API
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?limit=${eventCount}&status=open`;
+   fetch(queryEONET)
+   .then(response => response.json())
+      .then(data => {
+         let eventData = data.events;
+         console.log(eventData);//DELETE LATER
+         console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
+   //add markers to map based on eventData length
+         for (let index = 0; index < eventData.length; index++) {
+            var date = new Date(data.events[index].geometry[0].date);
+            L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]])
+            .addTo(map)
+            .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+         }   
+      });
+   console.log("API call complete");//DELETE later
+};
+
+function getCityCoord(){
+   console.log(`getting city coordinates from ${searchText.value}`);//Test code
+   //psuedo code: get coordinates from user input with API.
+   searchText.value = "";
+};
+
+function dataRefresh(){
+   console.log("getting and setting new variable options then calling dataPull");
+   //clear all existing point
+   // dataPull();
+};
 
 ////// EVENT HANDLERS //////
 
@@ -160,9 +170,10 @@ $('.modal-background').on('click', closeModal);
 // Prevents clicking through the modal container and onto to back to close it
 $('.modal-container').on('click', function (evt) {
    evt.stopPropagation();
-})
+});
 
-
+searchBtn.addEventListener("click", getCityCoord);
+dataRefreshBtn.addEventListener("click", dataRefresh);
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
 
