@@ -12,8 +12,8 @@
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
   <script src="https://kit.fontawesome.com/e9e3841673.js" crossorigin="anonymous"></script>
 
   <!-- Google Fonts -->
@@ -35,20 +35,26 @@
       <i class="far fa-fire-alt"></i>
       <h1>Mapped Event Tracker</h1>
     </div>
-      
-  </header> 
+
+  </header>
 
   <main class="overlay">
 
-    <a href="javascript:void(0);" class="icon hamburger" onclick="openMenu()">
+    <button class="hamburger" onclick="toggleHide()">
       <i class="fa fa-bars"></i>
-    </a>
-    <form id="option-menu" class="pure-form">
+      <i class="far fa-window-close close-icon"></i>
+    </button>
+
+    <form id="option-menu" class="pure-form pure-form-aligned menu">
+      <label for="from">From</label>
+      <input type="date" id="from" name="from" class="from pure-u-5-5" value="">
+      <label for="to">to</label>
+      <input type="date" id="to" name="to" class="to pure-u-5-5">
 
       <label for="checkbox-radio-option-one" class="pure-checkbox">
         <input type="checkbox" id="checkbox-radio-option-one" value="" /> Here&#x27;s option one.
       </label>
-      <label for="checkbox-radio-option-two" class="pure-checkbox pure-u 5-5">
+      <label for="checkbox-radio-option-two" class="pure-checkbox">
         <input type="checkbox" id="checkbox-radio-option-two" value="" /> Here&#x27;s option two.
       </label>
       <label for="checkbox-radio-option-three" class="pure-checkbox">
@@ -56,17 +62,17 @@
       </label>
     </form>
 
-    <!-- <aside id="leftFloat">
-        <p>Floated Box Absolute Position</p>
-        <h3>20 most recent events</h3>
-        <p id="eventList"></p>
-      </aside>  -->
 
+      <form id="search-bar" class="pure-form">
+        <input type="text" class="pure-input-2-3" placeholder="search" />
+        <button type="submit" class="pure-button">Search</button>
+        <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
+      </form>
       <!-- About/Help UI -->
 
       <!-- Buttons -->
 
-    <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
+ 
 
     <div id='bottom-right-btn-group'>
       <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
@@ -116,7 +122,6 @@
 
 
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./assets/js/script.js"></script>
 </body>
 

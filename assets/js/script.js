@@ -72,17 +72,6 @@ console.log("hello world");
 //   });
 // }); 
 
-//hamburer button
-let optionMenu = document.getElementById("option-menu");
-
-function openMenu() {
-   if (optionMenu.style.display === "block") {
-      optionMenu.style.display = "none";
-   } else {
-      optionMenu.style.display = "block";
-   }
-}
-
 
 
 
@@ -150,3 +139,15 @@ $('.modal-background').on('click', closeModal);
 $('.modal-container').on('click', function (evt) {
    evt.stopPropagation();
 })
+
+
+
+//options menu
+function toggleHide() {
+   var x = document.getElementById("option-menu");
+   if (x.style.display === "none") {
+     x.style.display = "block";
+   } else {
+     x.style.display = "none";
+   }
+ }

@@ -79,15 +79,18 @@ body{
 
 #search-bar {
   position: absolute;
-  top: 50px; 
-  left: 25px;
-  background-color: grey;
+  top: 1vh; 
+  left: 5vh;
+  background-color: transparent;
+  border-radius: 10px;
+
 }
 
 button#data-refresh-btn {
   position: absolute;
-  left: 60px;
-  top: 10px;
+  margin-left: 1vh;
+  /* left: 28vh;
+  top: 1vh; */
   z-index: 10;
 }
 
@@ -130,9 +133,13 @@ button.btn-secondary {
   background-color: grey;
   border-radius: 10%;
   height: 25vh;
-  width: 15vh;
+  width: 20vh;
   top: 5vh;
   right: 5vh;
+}
+
+.close-icon {
+  display: none;
 }
 
 .hide {
