@@ -47,7 +47,9 @@
 //when item is on map
    //item hover shows the summary of event
 
-console.log("hello world");
+console.log("Start of JS");
+let eventCount = 20;
+
 
 
 
@@ -75,6 +77,26 @@ console.log("hello world");
 
 
 
+//query eonet API
+let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?limit=${eventCount}&status=open`;
+fetch(queryEONET)
+.then(response => response.json())
+    .then(data => {
+      let eventData = data.events;
+      console.log(eventData);//DELETE LATER
+      console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
+//add markers to map based on eventData length
+for (let index = 0; index < eventData.length; index++) {
+var date = new Date(data.events[index].geometry[0].date);
+L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]])
+.addTo(map)
+.bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+}   
+    });
+
+console.log("API call complete");
+
+
 var map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
@@ -82,21 +104,21 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-L.marker([39.83, -104.68])
-        .addTo(map)
-        .bindPopup("TEST-MARKER");
+// L.marker([39.83, -104.68])
+//         .addTo(map)
+//         .bindPopup("TEST-MARKER");
 
-L.marker([39.85, -104.69])
-        .addTo(map)
-        .bindPopup("TEST-MARKER");
+// L.marker([39.85, -104.69])
+//         .addTo(map)
+//         .bindPopup("TEST-MARKER");
 
-var latlngs = [
-         [39.84, -104.68],
-         [39.85, -104.69],
-         [39.83, -104.69]
-      ];
-L.polygon(latlngs, {color: 'orange', weight: 1})
-.addTo(map);
+// var latlngs = [
+//          [39.84, -104.68],
+//          [39.85, -104.69],
+//          [39.83, -104.69]
+//       ];
+// L.polygon(latlngs, {color: 'orange', weight: 1})
+// .addTo(map);
 
 // map.addLayer()
 
