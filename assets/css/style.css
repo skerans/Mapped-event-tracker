@@ -46,7 +46,7 @@ div#title-content {
   color: orange;
 }
 
-i:not(.fa-map-marker-question) {
+i:not(.fa-map-marker-question, .fa-bars) {
   margin-right: .5rem;
 }
 
@@ -119,11 +119,9 @@ button.btn-secondary {
 
 .hamburger {
   position: absolute;
-  top: 5vh;
-  right: 5vh;
-  background-color: brown;
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  border-radius: 10%;
 }
 
 #option-menu {
