@@ -43,38 +43,53 @@
 
   <main class="overlay">
 
-    <button class="hamburger pure-button btn-secondary" onclick="toggleHide()">
+    <button class="hamburger pure-button btn-secondary" id='menu-open-btn'>
       <i class="fa fa-bars"></i>
-      <i class="far fa-window-close close-icon"></i>
     </button>
 
-    <form id="option-menu" class="pure-form pure-form-aligned menu">
-      <label for="from">From</label>
-      <input type="date" id="from" name="from" class="from pure-u-5-5" value="">
-      <label for="to">to</label>
-      <input type="date" id="to" name="to" class="to pure-u-5-5">
 
-      <label for="checkbox-radio-option-one" class="pure-checkbox">
-        <input type="checkbox" id="checkbox-radio-option-one" value="" /> Here&#x27;s option one.
-      </label>
-      <label for="checkbox-radio-option-two" class="pure-checkbox">
-        <input type="checkbox" id="checkbox-radio-option-two" value="" /> Here&#x27;s option two.
-      </label>
-      <label for="checkbox-radio-option-three" class="pure-checkbox">
-        <input type="checkbox" id="checkbox-radio-option-three" value="" /> Here&#x27;s option three.
-      </label>
+    <form id="option-menu" class="pure-form pure-form-aligned menu">
+        <div id="menu-header">
+        <h4>Options</h4>
+        <i class="far fa-times" id='menu-close-btn'></i>
+        </div>
+
+        <div id='menu-body'>
+          <div class='menu-section'>
+            <h5>Date Range</h5>
+            <label for="from">From</label>
+            <input type="date" id="from" name="from" class="from pure-u-5-5" placeholder="mm/dd/yyyy" value="">
+            <label for="to">To</label>
+            <input type="date" id="to" name="to" class="to pure-u-5-5" placeholder="mm/dd/yyyy">
+          </div>
+
+          <div class='menu-section'>
+            <h5>Event Types</h5>
+            <label for="checkbox-radio-option-all" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-all" value="" checked/> All Types
+            </label>
+            <label for="checkbox-radio-option-one" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-one" value="" /> Wildfires
+            </label>
+            <label for="checkbox-radio-option-two" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-two" value="" /> Hurricanes
+            </label>
+            <label for="checkbox-radio-option-three" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-three" value="" /> Earthquakes
+            </label>
+          </div>
+       </div>
     </form>
 
 
       <form id="search-bar" class="pure-form">
         <input type="text" class="pure-input-2-3" id="search-city" placeholder="search" />
         <button type="button" class="pure-button" id="search-btn">Search</button>
-        <button type="button" class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
       </form>
       <!-- About/Help UI -->
 
       <!-- Buttons -->
-
+      <button type="button" class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
  
 
     <div id='bottom-right-btn-group'>
