@@ -163,13 +163,30 @@ $('.modal-container').on('click', function (evt) {
 })
 
 
+//Open Options Menu
+$('#menu-open-btn').on('click', menuToggleHide);
+
+//Close Options Menu
+$('#menu-close-btn').on('click', menuToggleHide);
+
+
 
 //options menu
-function toggleHide() {
-   var x = document.getElementById("option-menu");
-   if (x.style.display === "none") {
-     x.style.display = "block";
+function menuToggleHide() {
+   var optionsMenu = $('#option-menu');
+   if (optionsMenu.css('display') === 'none') {
+      optionsMenu.css('display', 'block');
    } else {
-     x.style.display = "none";
+      optionsMenu.css('display', 'none')
    }
- }
+};
+
+
+
+
+//    if (x.style.display === "none") {
+//      x.style.display = "block";
+//    } else {
+//      x.style.display = "none";
+//    }
+//  }
