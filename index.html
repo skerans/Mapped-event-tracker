@@ -40,10 +40,12 @@
 
   <main class="overlay">
 
-    <a href="javascript:void(0);" class="icon hamburger" onclick="openMenu()">
+    <button class="hamburger" onclick="toggleHide()">
       <i class="fa fa-bars"></i>
-    </a>
-    <form id="option-menu" class="pure-form pure-form-aligned">
+      <i class="far fa-window-close close-icon"></i>
+    </button>
+
+    <form id="option-menu" class="pure-form pure-form-aligned menu">
       <label for="from">From</label>
       <input type="date" id="from" name="from" class="from pure-u-5-5" value="">
       <label for="to">to</label>
@@ -64,12 +66,13 @@
       <form id="search-bar" class="pure-form">
         <input type="text" class="pure-input-2-3" placeholder="search" />
         <button type="submit" class="pure-button">Search</button>
+        <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
       </form>
       <!-- About/Help UI -->
 
       <!-- Buttons -->
 
-    <button class="pure-button btn-primary" id='data-refresh-btn'><i class="fas fa-sync-alt"></i>Refresh Map</button>
+ 
 
     <div id='bottom-right-btn-group'>
       <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
