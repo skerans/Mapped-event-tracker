@@ -94,6 +94,47 @@ map.addControl( new L.Control.Search({
 }) );
 
 
+
+
+// NM - working on getting the boundaries of the map when moving or zooming...
+
+// This runs whenever the map stops moving
+// This signle event appears to capture both panning and zooming
+map.on('moveend', () => {
+
+   // Storing the bounds in variable
+   let bounds = map.getBounds();
+
+   // Console logging the bounds in its default state
+   // Which appears to be two arrays in an object
+   // One for the northeast corner, and the other for the southwest
+   console.log('---- NE and SW corners only ----')
+   console.log(bounds);
+
+   // Found a way to convert it to a single string
+   // which may be helpful if we are passing this off to an API as a parameter
+   console.log('---- NE and SW corners only, but all four values as one continuous string ----')
+   console.log(bounds.toBBoxString());
+
+   // now that bounds is set in a variable - can run the additional methods below
+
+   // This is how we can the other corners that aren't returned by the default getBounds()
+   console.log('---- lats and longs of the four corners of the viewport starting with NW and going clockwise ----')
+   console.log(bounds.getNorthWest());
+   console.log(bounds.getNorthEast());
+   console.log(bounds.getSouthEast());
+   console.log(bounds.getSouthWest());
+   
+   // This will return that lat/longs of the four borders of the viewport
+   console.log('---- lats and longs of the four sides of the viewport ----')
+   console.log(bounds.getNorth());
+   console.log(bounds.getSouth());
+   console.log(bounds.getEast());
+   console.log(bounds.getWest());
+});
+
+
+
 // L.marker([39.83, -104.68])
 //         .addTo(map)
 //         .bindPopup("TEST-MARKER");
@@ -155,10 +196,48 @@ function dataPull(){
    console.log("API call complete");//DELETE later
 };
 
-function getCityCoord(){
-   console.log(`getting city coordinates from ${searchText.value}`);//Test code
+function getCityCoord(event) {
+   event.preventDefault();
+
+   let newCity = searchText.value;
+
+   console.log(`getting city coordinates from ${searchText.value}`); //Test code
    //psuedo code: get coordinates from user input with API.
-   searchText.value = "";
+
+   if (newCity) {
+
+      const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
+
+      const weatherUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
+
+      fetch(weatherUrl)
+         .then(function (response) {
+            if (response.ok) {
+               response.json().then(function (data) {
+                  console.log(data); 
+                  if (data.length > 0) {  // checks if the city found 
+                     const checkCity = data[0].name;
+                     console.log(checkCity);
+                     const nameArray = newCity.split('');
+                     nameArray[0] = nameArray[0].toUpperCase();
+                     newCity = nameArray.join('');
+                     if (checkCity === newCity) {  // checks (found city === entered city)
+                        console.log(data);
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+
+                        L.marker([data[0].lat, data[0].lon])
+                          .addTo(map)
+                          .bindPopup(`${checkCity} - ${newCity}`); // add marker
+                     } 
+                  } else {
+                     alert("The city is not found!");
+                  }
+               });
+            }
+         });
+         // cc
+   }
 };
 
 function dataRefresh(){
@@ -166,6 +245,18 @@ function dataRefresh(){
    //clear all existing point
    // dataPull();
 };
+
+
+// Function for toggling visibility of the options menu
+function menuToggleHide() {
+   var optionsMenu = $('#option-menu');
+   if (optionsMenu.css('display') === 'none') {
+      optionsMenu.css('display', 'block');
+   } else {
+      optionsMenu.css('display', 'none')
+   }
+};
+
 
 ////// EVENT HANDLERS //////
 
@@ -193,14 +284,8 @@ $('#menu-close-btn').on('click', menuToggleHide);
 
 
 
-//options menu
-function menuToggleHide() {
-   var optionsMenu = $('#option-menu');
-   if (optionsMenu.css('display') === 'none') {
-      optionsMenu.css('display', 'block');
-   } else {
-      optionsMenu.css('display', 'none')
-   }
-};
+
+
+
 
 
