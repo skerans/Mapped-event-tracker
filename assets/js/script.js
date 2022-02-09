@@ -81,6 +81,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+//search bar
+map.addControl( new L.Control.Search({
+   url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
+   jsonpParam: 'json_callback',
+   propertyName: 'display_name',
+   propertyLoc: ['lat','lon'],
+   marker: L.circleMarker([0,0],{radius:30}),
+   autoCollapse: true,
+   autoType: false,
+   minLength: 2
+}) );
 
 
 // L.marker([39.83, -104.68])
@@ -193,11 +204,3 @@ function menuToggleHide() {
 };
 
 
-
-
-//    if (x.style.display === "none") {
-//      x.style.display = "block";
-//    } else {
-//      x.style.display = "none";
-//    }
-//  }
