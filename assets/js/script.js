@@ -75,13 +75,15 @@ dataPull();
 //       });
 //   });
 // }); 
+let layerGroup = L.layerGroup().addTo(map)
 
 var map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-//search bar
+
+
 
 
 
@@ -210,7 +212,7 @@ function getCityCoord(event) {
                      const nameArray = newCity.split('');
                      nameArray[0] = nameArray[0].toUpperCase();
                      newCity = nameArray.join('');
-                     if (checkCity === newCity) {  // checks (found city === entered city)
+                     if (checkCity.toLowerCase() == newCity.toLowerCase()) {  // checks (found city === entered city)
                         console.log(data);
                         const lat = data[0].lat;
                         const lon = data[0].lon;
@@ -218,7 +220,7 @@ function getCityCoord(event) {
                         console.log(lon);
 
                         L.marker([data[0].lat, data[0].lon])
-                          .addTo(map)
+                          .addTo(layerGroup)
                           .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
                      } 
@@ -235,7 +237,7 @@ function getCityCoord(event) {
 function dataRefresh(){
    console.log("getting and setting new variable options then calling dataPull");
    //clear all existing point
-   // map._panes.markerPane.remove(); will remove every marker icon, including the events
+   layerGroup.clearLayers();
    // dataPull();
 };
 
@@ -267,7 +269,11 @@ $('.modal-container').on('click', function (evt) {
    evt.stopPropagation();
 });
 
-searchBtn.addEventListener("click", getCityCoord);
+$("#search-bar").on("submit", function (event) {
+getCityCoord(event);
+$("#search-city").val("");
+});
+
 dataRefreshBtn.addEventListener("click", dataRefresh);
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
