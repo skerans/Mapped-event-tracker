@@ -57,14 +57,14 @@ let dataRefreshBtn = document.getElementById("data-refresh-btn");
 //initial pull of data points from EONET
 dataPull();
 
-let layerGroup = L.layerGroup().addTo(map)
+
 
 var map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-
+let layerGroup = L.layerGroup().addTo(map)
 
 
 
