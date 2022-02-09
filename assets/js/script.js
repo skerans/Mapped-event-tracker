@@ -144,10 +144,48 @@ function dataPull(){
    console.log("API call complete");//DELETE later
 };
 
-function getCityCoord(){
-   console.log(`getting city coordinates from ${searchText.value}`);//Test code
+function getCityCoord(event) {
+   event.preventDefault();
+
+   let newCity = searchText.value;
+
+   console.log(`getting city coordinates from ${searchText.value}`); //Test code
    //psuedo code: get coordinates from user input with API.
-   searchText.value = "";
+
+   if (newCity) {
+
+      const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
+
+      const weatherUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
+
+      fetch(weatherUrl)
+         .then(function (response) {
+            if (response.ok) {
+               response.json().then(function (data) {
+                  console.log(data); 
+                  if (data.length > 0) {  // checks if the city found 
+                     const checkCity = data[0].name;
+                     console.log(checkCity);
+                     const nameArray = newCity.split('');
+                     nameArray[0] = nameArray[0].toUpperCase();
+                     newCity = nameArray.join('');
+                     if (checkCity === newCity) {  // checks (found city === entered city)
+                        console.log(data);
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+
+                        L.marker([data[0].lat, data[0].lon])
+                          .addTo(map)
+                          .bindPopup(`${checkCity} - ${newCity}`); // add marker
+                     } 
+                  } else {
+                     alert("The city is not found!");
+                  }
+               });
+            }
+         });
+         // cc
+   }
 };
 
 function dataRefresh(){
