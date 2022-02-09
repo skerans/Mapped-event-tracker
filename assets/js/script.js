@@ -57,31 +57,15 @@ let dataRefreshBtn = document.getElementById("data-refresh-btn");
 //initial pull of data points from EONET
 dataPull();
 
-// $( document ).ready(function() {
-//   $.getJSON( "https://eonet.sci.gsfc.nasa.gov/api/v3/events", {
-//       status: "open",
-//       limit: 20
-//   })
-//   .done(function( data ) {
-//       $.each( data.events, function( key, event ) {
-//           $( "#eventList" ).append(
-//               "<dt>" + event.id + ": " + event.title + "</dt>"
-//           );
-//           if (event.description != null &&event.description.length) {
-//               $( "#eventList" ).append(
-//                   "<dd><em>" + event.description + "</em></dd>"
-//               );
-//           }
-//       });
-//   });
-// }); 
+let layerGroup = L.layerGroup().addTo(map)
 
 var map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-//search bar
+
+
 
 
 
@@ -122,34 +106,7 @@ map.on('moveend', () => {
    console.log(bounds.getWest());
 });
 
-
-
-// L.marker([39.83, -104.68])
-//         .addTo(map)
-//         .bindPopup("TEST-MARKER");
-
-// L.marker([39.85, -104.69])
-//         .addTo(map)
-//         .bindPopup("TEST-MARKER");
-
-// var latlngs = [
-//          [39.84, -104.68],
-//          [39.85, -104.69],
-//          [39.83, -104.69]
-//       ];
-// L.polygon(latlngs, {color: 'orange', weight: 1})
-// .addTo(map);
-
-// map.addLayer()
-
-// //control layers
-
-// var optionsOverlay = L.mapOverlay()
-
-// var popup = L.popup()
-//     .setContent("I am a standalone popup.");
-
-
+ 
 
 function closeModal() {
    $('.modal').addClass('hidden');
@@ -210,7 +167,7 @@ function getCityCoord(event) {
                      const nameArray = newCity.split('');
                      nameArray[0] = nameArray[0].toUpperCase();
                      newCity = nameArray.join('');
-                     if (checkCity === newCity) {  // checks (found city === entered city)
+                     if (checkCity.toLowerCase() == newCity.toLowerCase()) {  // checks (found city === entered city)
                         console.log(data);
                         const lat = data[0].lat;
                         const lon = data[0].lon;
@@ -218,7 +175,7 @@ function getCityCoord(event) {
                         console.log(lon);
 
                         L.marker([data[0].lat, data[0].lon])
-                          .addTo(map)
+                          .addTo(layerGroup)
                           .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
                      } 
@@ -235,7 +192,7 @@ function getCityCoord(event) {
 function dataRefresh(){
    console.log("getting and setting new variable options then calling dataPull");
    //clear all existing point
-   // map._panes.markerPane.remove(); will remove every marker icon, including the events
+   layerGroup.clearLayers();
    // dataPull();
 };
 
@@ -267,7 +224,11 @@ $('.modal-container').on('click', function (evt) {
    evt.stopPropagation();
 });
 
-searchBtn.addEventListener("click", getCityCoord);
+$("#search-bar").on("submit", function (event) {
+getCityCoord(event);
+$("#search-city").val("");
+});
+
 dataRefreshBtn.addEventListener("click", dataRefresh);
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
