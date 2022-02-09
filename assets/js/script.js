@@ -57,24 +57,6 @@ let dataRefreshBtn = document.getElementById("data-refresh-btn");
 //initial pull of data points from EONET
 dataPull();
 
-// $( document ).ready(function() {
-//   $.getJSON( "https://eonet.sci.gsfc.nasa.gov/api/v3/events", {
-//       status: "open",
-//       limit: 20
-//   })
-//   .done(function( data ) {
-//       $.each( data.events, function( key, event ) {
-//           $( "#eventList" ).append(
-//               "<dt>" + event.id + ": " + event.title + "</dt>"
-//           );
-//           if (event.description != null &&event.description.length) {
-//               $( "#eventList" ).append(
-//                   "<dd><em>" + event.description + "</em></dd>"
-//               );
-//           }
-//       });
-//   });
-// }); 
 let layerGroup = L.layerGroup().addTo(map)
 
 var map = L.map('map').setView([39.85, -104.67], 10);
@@ -123,33 +105,6 @@ map.on('moveend', () => {
    console.log(bounds.getEast());
    console.log(bounds.getWest());
 });
-
-
-
-// L.marker([39.83, -104.68])
-//         .addTo(map)
-//         .bindPopup("TEST-MARKER");
-
-// L.marker([39.85, -104.69])
-//         .addTo(map)
-//         .bindPopup("TEST-MARKER");
-
-// var latlngs = [
-//          [39.84, -104.68],
-//          [39.85, -104.69],
-//          [39.83, -104.69]
-//       ];
-// L.polygon(latlngs, {color: 'orange', weight: 1})
-// .addTo(map);
-
-// map.addLayer()
-
-// //control layers
-
-// var optionsOverlay = L.mapOverlay()
-
-// var popup = L.popup()
-//     .setContent("I am a standalone popup.");
 
 
 
