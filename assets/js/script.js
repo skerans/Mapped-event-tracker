@@ -184,6 +184,7 @@ function getCityCoord(event) {
                });
             }
          });
+         // cc
    }
 };
 
