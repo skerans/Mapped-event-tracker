@@ -82,17 +82,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 //search bar
-map.addControl( new L.Control.Search({
-   url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
-   jsonpParam: 'json_callback',
-   propertyName: 'display_name',
-   propertyLoc: ['lat','lon'],
-   marker: L.circleMarker([0,0],{radius:30}),
-   autoCollapse: true,
-   autoType: false,
-   minLength: 2
-}) );
-
 
 
 
@@ -208,7 +197,7 @@ function getCityCoord(event) {
 
       const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
 
-      const weatherUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
+      const weatherUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
 
       fetch(weatherUrl)
          .then(function (response) {
@@ -225,10 +214,13 @@ function getCityCoord(event) {
                         console.log(data);
                         const lat = data[0].lat;
                         const lon = data[0].lon;
+                        console.log(lat);
+                        console.log(lon);
 
                         L.marker([data[0].lat, data[0].lon])
                           .addTo(map)
                           .bindPopup(`${checkCity} - ${newCity}`); // add marker
+                        map.setView([lat, lon], 10) //set map to location, zoom to 10
                      } 
                   } else {
                      alert("The city is not found!");
@@ -243,6 +235,7 @@ function getCityCoord(event) {
 function dataRefresh(){
    console.log("getting and setting new variable options then calling dataPull");
    //clear all existing point
+   // map._panes.markerPane.remove(); will remove every marker icon, including the events
    // dataPull();
 };
 
