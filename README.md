@@ -2,7 +2,16 @@
   Mapped Event Tracker
 </h1>
 
-## Mapped-event-tracker
+## Table of Contents
+-[Description](mapped-event-tracker)<br>
+-[User Stories](#user-stories)<br>
+-[Usage](#usage)<br>
+-[Wireframes](#lofi-wires)<br>
+-[Built With](#built-with)<br>
+-[Live](#live)
+
+
+## Mapped Event Tracker
 A map tracking natural events across the globe, with a search bar to look for events in specific places. The option to look for specific events and within date ranges is currently being added. 
 
 ## User Stories
