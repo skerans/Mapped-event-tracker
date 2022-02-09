@@ -83,6 +83,47 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
+
+
+// NM - working on getting the boundaries of the map when moving or zooming...
+
+// This runs whenever the map stops moving
+// This signle event appears to capture both panning and zooming
+map.on('moveend', () => {
+
+   // Storing the bounds in variable
+   let bounds = map.getBounds();
+
+   // Console logging the bounds in its default state
+   // Which appears to be two arrays in an object
+   // One for the northeast corner, and the other for the southwest
+   console.log('---- NE and SW corners only ----')
+   console.log(bounds);
+
+   // Found a way to convert it to a single string
+   // which may be helpful if we are passing this off to an API as a parameter
+   console.log('---- NE and SW corners only, but all four values as one continuous string ----')
+   console.log(bounds.toBBoxString());
+
+   // now that bounds is set in a variable - can run the additional methods below
+
+   // This is how we can the other corners that aren't returned by the default getBounds()
+   console.log('---- lats and longs of the four corners of the viewport starting with NW and going clockwise ----')
+   console.log(bounds.getNorthWest());
+   console.log(bounds.getNorthEast());
+   console.log(bounds.getSouthEast());
+   console.log(bounds.getSouthWest());
+   
+   // This will return that lat/longs of the four borders of the viewport
+   console.log('---- lats and longs of the four sides of the viewport ----')
+   console.log(bounds.getNorth());
+   console.log(bounds.getSouth());
+   console.log(bounds.getEast());
+   console.log(bounds.getWest());
+});
+
+
+
 // L.marker([39.83, -104.68])
 //         .addTo(map)
 //         .bindPopup("TEST-MARKER");
@@ -194,6 +235,18 @@ function dataRefresh(){
    // dataPull();
 };
 
+
+// Function for toggling visibility of the options menu
+function menuToggleHide() {
+   var optionsMenu = $('#option-menu');
+   if (optionsMenu.css('display') === 'none') {
+      optionsMenu.css('display', 'block');
+   } else {
+      optionsMenu.css('display', 'none')
+   }
+};
+
+
 ////// EVENT HANDLERS //////
 
 //Open Modal
@@ -220,15 +273,9 @@ $('#menu-close-btn').on('click', menuToggleHide);
 
 
 
-//options menu
-function menuToggleHide() {
-   var optionsMenu = $('#option-menu');
-   if (optionsMenu.css('display') === 'none') {
-      optionsMenu.css('display', 'block');
-   } else {
-      optionsMenu.css('display', 'none')
-   }
-};
+
+
+
 
 
 
