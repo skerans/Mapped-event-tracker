@@ -106,7 +106,7 @@ map.on('moveend', () => {
    console.log(bounds.getWest());
 });
 
-
+ 
 
 function closeModal() {
    $('.modal').addClass('hidden');
