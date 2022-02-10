@@ -52,19 +52,20 @@ let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = document.getElementById("data-refresh-btn");
-
+let layerGroup;
+let map;
 
 //initial pull of data points from EONET
 dataPull();
 
 
 
-var map = L.map('map').setView([39.85, -104.67], 10);
+map = L.map('map').setView([39.85, -104.67], 10);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-let layerGroup = L.layerGroup().addTo(map)
+layerGroup = L.layerGroup().addTo(map)
 
 
 
