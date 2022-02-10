@@ -93,6 +93,8 @@ function getNewBoundaries() {
    maxLat = bounds.getNorth();
 }
 
+//
+
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
