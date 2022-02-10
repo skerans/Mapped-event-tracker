@@ -58,7 +58,7 @@ Root Directory
   <li><a href="https://purecss.io/" >Pure CSS</a></li>
   <li><a href="https://eonet.gsfc.nasa.gov/" >EONET Api</a></li>
   <li><a href="https://openweathermap.org/" >OpenWeatherMap Api</a></li>
-  <li><a href="https://www.openstreetmap.org/" >OpenWeatherMap Api</a></li>
+  <li><a href="https://www.openstreetmap.org/" >OpenStreetMap Api</a></li>
 </ul>
 
 ## Live
