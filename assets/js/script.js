@@ -53,7 +53,7 @@ console.log("Start of JS");
 let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
-let dataRefreshBtn = document.getElementById("data-refresh-btn");
+let dataRefreshBtn = $("#data-refresh-btn");
 
 //map variables
 let layerGroup;
@@ -67,11 +67,11 @@ let bounds;
 let storedLat;
 let storedLon;
 
-
+// let eventTypeArr = ['wildfires'];
 
 ///// FUNCTIONS /////
 
-// This finction gets the boundaries of the current map view
+// This function gets the boundaries of the current map view
 function getNewBoundaries() {
    // Storing the map boundaries in a variable
    bounds = map.getBounds();
@@ -82,6 +82,7 @@ function getNewBoundaries() {
    minLat = bounds.getSouth();
    maxLat = bounds.getNorth();
 }
+
 
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
@@ -241,7 +242,10 @@ init()
 
 
 // Map move event -- triggers new boundaries
-map.on('moveend', getNewBoundaries);
+map.on('moveend', function () {
+   dataRefreshBtn.attr('disabled', false);
+   getNewBoundaries();
+});
 
 //Open Modal
 $('.modal-btn').on('click', function (evt) {
@@ -264,7 +268,10 @@ $("#search-bar").on("submit", function (event) {
 });
 
 // Refresh Data Event
-dataRefreshBtn.addEventListener("click", dataRefresh);
+dataRefreshBtn.on("click", function () {
+   dataRefreshBtn.attr('disabled', true);
+   dataRefresh();
+});
 
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
