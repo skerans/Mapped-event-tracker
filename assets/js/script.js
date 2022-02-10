@@ -54,25 +54,20 @@ let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = document.getElementById("data-refresh-btn");
+
+//map variables
 let layerGroup;
 let map;
+let minLong;
+let maxLong;
+let minLat;
+let maxLat;
+let bounds;
 
-///// Creating the map /////
-var map = L.map('map').setView([39.85, -104.67], 10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-   maxZoom: 19,
-   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-let layerGroup = L.layerGroup().addTo(map)
-let bounds = map.getBounds();
+let storedLat;
+let storedLon;
 
-let minLong = bounds.getWest();
-let maxLong = bounds.getEast();
-let minLat = bounds.getSouth();
-let maxLat = bounds.getNorth();
 
-//initial pull of data points from EONET
-dataPull();
 
 
 
@@ -94,7 +89,7 @@ function getNewBoundaries() {
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
    //query eonet API
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=open`;
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
@@ -145,11 +140,13 @@ function getCityCoord(event) {
                         const lon = data[0].lon;
                         console.log(lat);
                         console.log(lon);
-
                         L.marker([data[0].lat, data[0].lon])
                            .addTo(layerGroup)
                            .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
+                        console.log(bounds.getCenter());
+                        localStorage.setItem("Lat", lat);
+                        localStorage.setItem("Lon", lon);
                      }
                   } else {
                      alert("The city is not found!");
@@ -200,7 +197,50 @@ function closeModal() {
 }
 
 
+//function to get lat/lon from local storage
+function getStoredLocation() {
+   storedLat = localStorage.getItem("Lat");
+   storedLon = localStorage.getItem("Lon");
+
+   if (localStorage.getItem('Lat') === null) {
+      localStorage.setItem('Lat', 39.85);
+   }
+   if (localStorage.getItem('Lon') === null) {
+      localStorage.setItem('Lon', -104.67);
+   }
+}
+
+///// Creating the map /////
+function createMap() {
+   
+map = L.map('map').setView([storedLat, storedLon], 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+   maxZoom: 19,
+   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+layerGroup = L.layerGroup().addTo(map);
+bounds = map.getBounds();
+
+minLong = bounds.getWest();
+maxLong = bounds.getEast();
+minLat = bounds.getSouth();
+maxLat = bounds.getNorth();
+}
+
+//initial pull of data points from EONET
+function init() {
+   getStoredLocation();
+   createMap();
+   dataPull();
+}
+
+getStoredLocation()
+init()
+
+
+
 ////// EVENT HANDLERS //////
+
 
 // Map move event -- triggers new boundaries
 map.on('moveend', getNewBoundaries);
@@ -233,7 +273,6 @@ $('#menu-open-btn').on('click', menuToggleHide);
 
 //Close Options Menu
 $('#menu-close-btn').on('click', menuToggleHide);
-
 
 
 
