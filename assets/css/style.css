@@ -112,7 +112,7 @@ button.btn-secondary {
   color: #fff;
 }
 
-.pure-button-hover, .pure-button:focus, .pure-button:hover {
+.pure-button-hover, .pure-button:hover {
   background-image: none;
   background: linear-gradient(to right, rgb(232, 0, 50), rgb(255, 75, 43));
 }

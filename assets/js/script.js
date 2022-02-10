@@ -70,6 +70,10 @@ let maxLong = bounds.getEast();
 let minLat = bounds.getSouth();
 let maxLat = bounds.getNorth();
 
+// let eventTypeArr = [''];
+
+
+
 //initial pull of data points from EONET
 dataPull();
 
