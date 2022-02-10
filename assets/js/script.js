@@ -69,8 +69,6 @@ let storedLon;
 
 
 
-
-
 ///// FUNCTIONS /////
 
 // This finction gets the boundaries of the current map view
