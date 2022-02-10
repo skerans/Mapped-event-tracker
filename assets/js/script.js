@@ -53,7 +53,7 @@ console.log("Start of JS");
 let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
-let dataRefreshBtn = document.getElementById("data-refresh-btn");
+let dataRefreshBtn = $("#data-refresh-btn");
 
 
 ///// Creating the map /////
@@ -93,7 +93,7 @@ function getNewBoundaries() {
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
    //query eonet API
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=open`;
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
@@ -161,6 +161,8 @@ function getCityCoord(event) {
 
 // Data Refresh Function
 function dataRefresh() {
+   dataRefreshBtn.attr('disabled', true)
+
    console.log("getting and setting new variable options then calling dataPull");
 
    //clear all existing point
@@ -202,7 +204,10 @@ function closeModal() {
 ////// EVENT HANDLERS //////
 
 // Map move event -- triggers new boundaries
-map.on('moveend', getNewBoundaries);
+map.on('moveend', function () {
+   getNewBoundaries();
+   dataRefreshBtn.attr('disabled', false)
+});
 
 //Open Modal
 $('.modal-btn').on('click', function (evt) {
@@ -225,7 +230,7 @@ $("#search-bar").on("submit", function (event) {
 });
 
 // Refresh Data Event
-dataRefreshBtn.addEventListener("click", dataRefresh);
+dataRefreshBtn.on("click", dataRefresh);
 
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
