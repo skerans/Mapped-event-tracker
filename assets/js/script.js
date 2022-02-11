@@ -103,7 +103,7 @@ function dataPull() {
             }
             displayMessage(eventData.length + " event(s) found!");
          } else {
-            console.log("There is no event happened!");
+            console.log("No event happened in this area!");
             displayMessage("No event happened in this area!");
          }
       });
@@ -227,77 +227,6 @@ function init() {
 
 getStoredLocation()
 init()
-
-
-// Function for toggling visibility of the options menu
-function menuToggleHide() {
-   var optionsMenu = $('#option-menu');
-   if (optionsMenu.css('display') === 'none') {
-      optionsMenu.css('display', 'block');
-   } else {
-      optionsMenu.css('display', 'none')
-   }
-};
-
-
-// Function to open the modals
-function openModal(evt) {
-   $('.modal').removeClass('hidden');
-   $('header, #map, main.overlay').addClass('blur');
-
-   let selectedModal = evt.target.getAttribute('data-modal');
-
-   $('.modal-header h2').text(selectedModal);
-};
-
-// Function to close the currently opened modal
-function closeModal() {
-   $('.modal').addClass('hidden');
-   $('header, #map, main.overlay').removeClass('blur');
-}
-
-
-//function to get lat/lon from local storage
-function getStoredLocation() {
-   storedLat = localStorage.getItem("Lat");
-   storedLon = localStorage.getItem("Lon");
-
-   if (localStorage.getItem('Lat') === null) {
-      localStorage.setItem('Lat', 39.85);
-   }
-   if (localStorage.getItem('Lon') === null) {
-      localStorage.setItem('Lon', -104.67);
-   }
-}
-
-///// Creating the map /////
-function createMap() {
-   
-map = L.map('map').setView([storedLat, storedLon], 10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-   maxZoom: 19,
-   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-layerGroup = L.layerGroup().addTo(map);
-bounds = map.getBounds();
-
-minLong = bounds.getWest();
-maxLong = bounds.getEast();
-minLat = bounds.getSouth();
-maxLat = bounds.getNorth();
-}
-
-//initial pull of data points from EONET
-function init() {
-   getStoredLocation();
-   createMap();
-   dataPull();
-}
-
-getStoredLocation()
-init()
-
-
 
 ////// EVENT HANDLERS //////
 
@@ -508,8 +437,3 @@ function displayMessage(string) {
 function hideMessage() {
    errorHandle.classList.add("hide");
 }
-
-
-
-
-
