@@ -112,9 +112,16 @@ button.btn-secondary {
   color: #fff;
 }
 
-.pure-button-hover, .pure-button:focus, .pure-button:hover {
+.pure-button-hover, .pure-button:hover {
   background-image: none;
   background: linear-gradient(to right, rgb(232, 0, 50), rgb(255, 75, 43));
+}
+
+.pure-button:disabled {
+  background: #ccc;
+  color: #999;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .hamburger {
@@ -189,9 +196,6 @@ i#menu-close-btn {
 .menu-section input[type=checkbox] {
   margin-right: .5rem;
 }
-
-
-
 
 .hide {
   display: none;
