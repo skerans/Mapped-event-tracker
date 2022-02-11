@@ -102,7 +102,7 @@ function dataPull() {
             }
             displayMessage(eventData.length + " event(s) found!");
          } else {
-            console.log("There is no event happened!");
+            console.log("No event happened in this area!");
             displayMessage("No event happened in this area!");
          }
       });
@@ -147,6 +147,7 @@ function getCityCoord() {
    }
 };
 
+
 // Data Refresh Function
 function dataRefresh() {
    console.log("getting and setting new variable options then calling dataPull");
@@ -185,7 +186,6 @@ function closeModal() {
    $('.modal').addClass('hidden');
    $('header, #map, main.overlay').removeClass('blur');
 }
-
 
 //function to get lat/lon from local storage
 function getStoredLocation() {
