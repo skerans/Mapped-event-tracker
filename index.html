@@ -63,14 +63,27 @@
             <input type="date" id="to" name="to" class="to pure-u-5-5" placeholder="mm/dd/yyyy">
           </div>
 
-          <div class='menu-section'>
+          <div class='menu-section' id="event-types">
             <h5>Event Types</h5>
-            <label for="checkbox-radio-option-all" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-all" value="" checked/> All Types
+            <label for="checkbox-all" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-all" name="checkbox-all" checked /> All Types
             </label>
-            <label for="checkbox-radio-option-one" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-one" value="" /> Wildfires
+            <label for="checkbox-one" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-one" name="checkbox-one" /> Wildfires
             </label>
+<<<<<<< HEAD
+            <label for="checkbox-two" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-two" name="checkbox-two" /> Severe Storms
+            </label>
+            <label for="checkbox-three" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-three" name="checkbox-three" /> Volcanoes
+            </label>
+            <label for="checkbox-four" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-four" name="checkbox-four" /> Icebergs
+            </label>
+            <label for="checkbox-five" class="pure-checkbox">
+              <input type="checkbox" id="checkbox-radio-option-five" name="checkbox-fivel" /> Earthquakes
+=======
             <label for="checkbox-radio-option-two" class="pure-checkbox">
               <input type="checkbox" id="checkbox-radio-option-two" value="" /> Severe Storms
             </label>
@@ -82,6 +95,7 @@
             </label>
             <label for="checkbox-radio-option-five" class="pure-checkbox">
               <input type="checkbox" id="checkbox-radio-option-five" value="" /> Earthquakes
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
             </label>
           </div>
        </div>
@@ -102,8 +116,11 @@
       <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
       <button class="pure-button btn-secondary modal-btn" id='about-btn' data-modal='about'><i class="far fa-info" data-modal='about'></i>About</button>
     </div>
-
-    
+   
+    <!-- Error Message -->
+    <div id="error-message" class="hide">
+      <p>Error</p>
+    </div>
       
   </main>
 

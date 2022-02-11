@@ -51,7 +51,6 @@ console.log("Start of JS");
 
 ///// GLOBAL VARIABLES /////
 let eventCount = 20;
-let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
 
@@ -83,6 +82,113 @@ function getNewBoundaries() {
    maxLat = bounds.getNorth();
 }
 
+<<<<<<< HEAD
+
+
+// This function fetches event data from the EONET API and uses it to populate the event markers on the map
+function dataPull() {
+   //query eonet API
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
+   fetch(queryEONET)
+      .then(response => response.json())
+      .then(data => {
+         if (data.events.length > 0) {
+            let eventData = data.events;
+            console.log(eventData);//DELETE LATER
+            console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
+            //add markers to map based on eventData length
+            for (let index = 0; index < eventData.length; index++) {
+               var date = new Date(data.events[index].geometry[0].date);
+               var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
+               eventMarker.addTo(layerGroup)
+                  .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+            }
+            displayMessage(eventData.length + " event(s) found!");
+         } else {
+            console.log("There is no event happened!");
+            displayMessage("No event happened in this area!");
+         }
+      });
+   console.log("API call complete");//DELETE later
+};
+
+
+// Getting the city coordinates based on user entry in the city search bar
+function getCityCoord() {
+   //pseudo code: get coordinates from user input with API.
+   let newCity = searchText.value;
+   if (newCity) {
+      const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
+      const weatherUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
+      fetch(weatherUrl)
+         .then(function (response) {
+            if (response.ok) {
+               response.json().then(function (data) {
+                  console.log(data);
+                  if (data.length > 0) {  // checks if the city found 
+                     const checkCity = data[0].name;
+                     if (checkCity.toLowerCase() == newCity.toLowerCase()) {  // checks (found city === entered city)
+                        console.log(data);
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+                        L.marker([data[0].lat, data[0].lon])
+                           .addTo(layerGroup)
+                           .bindPopup(`${checkCity}`); // add marker
+                        map.setView([lat, lon], 10)    //set map to location, zoom to 10
+                        console.log(bounds.getCenter());
+                        localStorage.setItem("Lat", lat);
+                        localStorage.setItem("Lon", lon);
+                        dataPull();
+                     }
+                  } else {
+                     console.log("The city is not found! Check the name, please.");
+                     displayMessage("The city is not found! Check the name, please.");
+                  }
+               });
+            }
+         });
+   }
+};
+
+// Data Refresh Function
+function dataRefresh() {
+   console.log("getting and setting new variable options then calling dataPull");
+
+   //clear all existing point
+   layerGroup.clearLayers();
+
+   // Pull new data
+   dataPull();
+};
+
+
+// Function for toggling visibility of the options menu
+function menuToggleHide() {
+   var optionsMenu = $('#option-menu');
+   if (optionsMenu.css('display') === 'none') {
+      optionsMenu.css('display', 'block');
+   } else {
+      optionsMenu.css('display', 'none')
+   }
+};
+
+
+// Function to open the modals
+function openModal(evt) {
+   $('.modal').removeClass('hidden');
+   $('header, #map, main.overlay').addClass('blur');
+
+   let selectedModal = evt.target.getAttribute('data-modal');
+
+   $('.modal-header h2').text(selectedModal);
+};
+
+// Function to close the currently opened modal
+function closeModal() {
+   $('.modal').addClass('hidden');
+   $('header, #map, main.overlay').removeClass('blur');
+}
+=======
 
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
@@ -110,12 +216,18 @@ function dataPull() {
 // Getting the city coordinates based on user entry in the city search bar
 function getCityCoord(event) {
    event.preventDefault();
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 
-   let newCity = searchText.value;
 
-   console.log(`getting city coordinates from ${searchText.value}`); //Test code
-   //psuedo code: get coordinates from user input with API.
+//function to get lat/lon from local storage
+function getStoredLocation() {
+   storedLat = localStorage.getItem("Lat");
+   storedLon = localStorage.getItem("Lon");
 
+<<<<<<< HEAD
+   if (localStorage.getItem('Lat') === null) {
+      localStorage.setItem('Lat', 39.85);
+=======
    if (newCity) {
 
       const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
@@ -153,9 +265,41 @@ function getCityCoord(event) {
                });
             }
          });
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    }
-};
+   if (localStorage.getItem('Lon') === null) {
+      localStorage.setItem('Lon', -104.67);
+   }
+}
 
+<<<<<<< HEAD
+///// Creating the map /////
+function createMap() {
+
+   map = L.map('map').setView([storedLat, storedLon], 10);
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+   }).addTo(map);
+   layerGroup = L.layerGroup().addTo(map);
+   bounds = map.getBounds();
+
+   minLong = bounds.getWest();
+   maxLong = bounds.getEast();
+   minLat = bounds.getSouth();
+   maxLat = bounds.getNorth();
+}
+
+//initial pull of data points from EONET
+function init() {
+   getStoredLocation();
+   createMap();
+   dataPull();
+}
+
+getStoredLocation()
+init()
+=======
 // Data Refresh Function
 function dataRefresh() {
    console.log("getting and setting new variable options then calling dataPull");
@@ -166,6 +310,7 @@ function dataRefresh() {
    // Pull new data
    dataPull();
 };
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 
 
 // Function for toggling visibility of the options menu
@@ -263,23 +408,205 @@ $('.modal-container').on('click', function (evt) {
 
 // Search City Event
 $("#search-bar").on("submit", function (event) {
+<<<<<<< HEAD
+   event.preventDefault();
+   getCityCoord();
+=======
    getCityCoord(event);
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    $("#search-city").val("");
 });
 
 // Refresh Data Event
+<<<<<<< HEAD
+dataRefreshBtn.on("click", function (event) {
+   event.preventDefault();
+=======
 dataRefreshBtn.on("click", function () {
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    dataRefreshBtn.attr('disabled', true);
    dataRefresh();
 });
 
+<<<<<<< HEAD
+const dateFrom = document.getElementById("from");
+const dateTo = document.getElementById("to");
+const allEvents = document.getElementById("checkbox-radio-option-all");
+const wildfires = document.getElementById("checkbox-radio-option-one");
+const severeStroms = document.getElementById("checkbox-radio-option-two");
+const volcanoes = document.getElementById("checkbox-radio-option-three");
+const seaLakeIce = document.getElementById("checkbox-radio-option-four");
+const earthquakes = document.getElementById("checkbox-radio-option-five");
+const errorHandle = document.getElementById("error-message");
+
+function setFormElements() {
+   let today = new Date();   // StackOverFlow
+   const dd = String(today.getDate()).padStart(2, '0');
+   const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+   const yyyy = today.getFullYear();
+   today = yyyy + '-' + mm + '-' + dd;  // The date would not be future date
+   dateFrom.setAttribute("max", today);
+   dateTo.setAttribute("max", today);
+}
+
+function showFormResults() {
+   let dateStart = dateFrom.value;
+   let dateEnd = dateTo.value;
+
+   //clear all existing points
+   layerGroup.clearLayers();
+
+   if (dateEnd >= dateStart) {
+      let queryEONET = `https://eonet.gsfc.nasa.gov/api/v3/events?start=${dateStart}&end=${dateEnd}`;
+      fetch(queryEONET)
+         .then(response => response.json())
+         .then(data => {
+            console.log(data.events);
+            if (data.events.length > 0) {
+               let eventData = [];
+               if (allEvents.checked) {
+                  eventData = data.events;
+                  console.log(eventData);
+               } else {
+                  let tempData = data.events;
+                  if (wildfires.checked) {
+                     for (let i = 0; i < tempData.length; i++) {
+                        let eventName = tempData[i].categories[0].id;
+                        if (eventName === "wildfires") {
+                           eventData.push(tempData[i])
+                        }
+                     }
+                     if (eventData.length === 0) {
+                        console.log("No wildfire event happened!");
+                        displayMessage("No wildfire event happened!");
+                     }
+                  }
+                  if (severeStroms.checked) {
+                     for (let i = 0; i < tempData.length; i++) {
+                        let eventName = tempData[i].categories[0].id;
+                        if (eventName === "severeStorms") {
+                           eventData.push(tempData[i])
+                        }
+                     }
+                     if (eventData.length === 0) {
+                        console.log("No Severe Storm event happened!");
+                        displayMessage("No Severe Storm event happened!");
+                     }
+                  }
+                  if (volcanoes.checked) {
+                     for (let i = 0; i < tempData.length; i++) {
+                        let eventName = tempData[i].categories[0].id;
+                        if (eventName === "volcanoes") {
+                           eventData.push(tempData[i])
+                        }
+                     }
+                     if (eventData.length === 0) {
+                        console.log("No Volcanoe event happened!");
+                        displayMessage("No Volcanoe event happened!");
+                     }
+                  }
+                  if (seaLakeIce.checked) {
+                     for (let i = 0; i < tempData.length; i++) {
+                        let eventName = tempData[i].categories[0].id;
+                        if (eventName === "seaLakeIce") {
+                           eventData.push(tempData[i])
+                        }
+                     }
+                     if (eventData.length === 0) {
+                        console.log("No Iceberg event happened!");
+                        displayMessage("No Iceberg event happened!");
+                     }
+                  }
+                  if (earthquakes.checked) {
+                     for (let i = 0; i < tempData.length; i++) {
+                        let eventName = tempData[i].categories[0].id;
+                        if (eventName === "earthquakes") {
+                           eventData.push(tempData[i])
+                        }
+                     }
+                     if (eventData.length === 0) {
+                        console.log("No Earthquake event happened!");
+                        displayMessage("No Earthquake event happened!");
+                     }
+                  }
+                  console.log(eventData);
+               }
+               if (eventData.length > 0) {
+                  for (let index = 0; index < eventData.length; index++) {
+                     var date = new Date(eventData[index].geometry[0].date);
+                     var eventMarker = L.marker([eventData[index].geometry[0].coordinates[1], eventData[index].geometry[0].coordinates[0]]);
+                     eventMarker.addTo(layerGroup)
+                        .bindPopup(`${eventData[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+                  }
+                  displayMessage(eventData.length + " event(s) found!");
+               } else {
+                  console.log("No event found!");
+                  displayMessage("No event found!");
+               }
+            } else {
+               console.log("No event found!");
+               displayMessage("No event found!");
+            }
+         });
+   }
+}
+
+=======
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 //Open Options Menu
-$('#menu-open-btn').on('click', menuToggleHide);
+$('#menu-open-btn').on('click', function (event) {
+   event.preventDefault();
+   setFormElements();
+   menuToggleHide();
+});
 
 //Close Options Menu
-$('#menu-close-btn').on('click', menuToggleHide);
+$('#menu-close-btn').on('click', function (event) {
+   event.preventDefault();
+   menuToggleHide();
+   showFormResults();
+});
 
+<<<<<<< HEAD
+// Check event type checkbox 
+$('#event-types').on("click", function (event) {
+   const element = event.target;
+   // if (elements) {
+   //    elements.checked = false;
+   // } else {
+   //    elements.checked = true;
+   // }
+   if (element == allEvents) {
+      allEvents.checked = true;
+      wildfires.checked = false;
+      severeStroms.checked = false;
+      volcanoes.checked = false;
+      seaLakeIce.checked = false;
+      earthquakes.checked = false;
+   } else {
+      allEvents.checked = false;
+      if (wildfires.checked && severeStroms.checked && volcanoes.checked && seaLakeIce.checked && earthquakes.checked) {
+         allEvents.checked = true;
+         wildfires.checked = false;
+         severeStroms.checked = false;
+         volcanoes.checked = false;
+         seaLakeIce.checked = false;
+         earthquakes.checked = false;
+      }
+   }
+});
 
+function displayMessage(string) {
+   errorHandle.classList.remove("hide");
+   errorHandle.textContent = string;
+}
+
+function hideMessage() {
+   errorHandle.classList.add("hide");
+}
+=======
+
+>>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 
 
 
