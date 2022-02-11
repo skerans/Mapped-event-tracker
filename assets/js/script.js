@@ -436,8 +436,3 @@ function displayMessage(string) {
 function hideMessage() {
    errorHandle.classList.add("hide");
 }
-
-
-
-
-
