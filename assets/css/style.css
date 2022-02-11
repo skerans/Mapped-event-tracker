@@ -284,4 +284,10 @@ div.modal-header {
   filter: blur(4px);
 }
 
-
+/* Error message */
+#error-message {
+  position: absolute;
+  left: 10px;
+  top: 90vh;
+  z-index: 10;
+}
