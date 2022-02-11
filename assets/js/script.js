@@ -1,4 +1,3 @@
-
 //load leaflet API
 //Modal Prompt
 //set buttons and items to visible as applicable for iinitial functionality
@@ -53,7 +52,7 @@ console.log("Start of JS");
 let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
-let dataRefreshBtn = document.getElementById("data-refresh-btn");
+let dataRefreshBtn = $("#data-refresh-btn");
 
 //map variables
 let layerGroup;
@@ -236,12 +235,14 @@ getStoredLocation()
 init()
 
 
-
 ////// EVENT HANDLERS //////
 
 
 // Map move event -- triggers new boundaries
-map.on('moveend', getNewBoundaries);
+map.on('moveend', function () {
+   dataRefreshBtn.attr('disabled', false);
+   getNewBoundaries();
+});
 
 //Open Modal
 $('.modal-btn').on('click', function (evt) {
@@ -264,17 +265,16 @@ $("#search-bar").on("submit", function (event) {
 });
 
 // Refresh Data Event
-dataRefreshBtn.addEventListener("click", dataRefresh);
+dataRefreshBtn.on("click", function () {
+   dataRefreshBtn.attr('disabled', true);
+   dataRefresh();
+});
 
 //Open Options Menu
 $('#menu-open-btn').on('click', menuToggleHide);
 
 //Close Options Menu
 $('#menu-close-btn').on('click', menuToggleHide);
-
-
-
-
 
 
 
