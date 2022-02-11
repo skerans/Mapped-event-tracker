@@ -82,8 +82,6 @@ function getNewBoundaries() {
    maxLat = bounds.getNorth();
 }
 
-<<<<<<< HEAD
-
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
@@ -150,6 +148,7 @@ function getCityCoord() {
    }
 };
 
+
 // Data Refresh Function
 function dataRefresh() {
    console.log("getting and setting new variable options then calling dataPull");
@@ -188,91 +187,20 @@ function closeModal() {
    $('.modal').addClass('hidden');
    $('header, #map, main.overlay').removeClass('blur');
 }
-=======
-
-
-// This function fetches event data from the EONET API and uses it to populate the event markers on the map
-function dataPull() {
-   //query eonet API
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
-   fetch(queryEONET)
-      .then(response => response.json())
-      .then(data => {
-         let eventData = data.events;
-         console.log(eventData);//DELETE LATER
-         console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
-         //add markers to map based on eventData length
-         for (let index = 0; index < eventData.length; index++) {
-            var date = new Date(data.events[index].geometry[0].date);
-            var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
-            eventMarker.addTo(layerGroup)
-               .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-         }
-      });
-   console.log("API call complete");//DELETE later
-};
-
-
-// Getting the city coordinates based on user entry in the city search bar
-function getCityCoord(event) {
-   event.preventDefault();
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
-
 
 //function to get lat/lon from local storage
 function getStoredLocation() {
    storedLat = localStorage.getItem("Lat");
    storedLon = localStorage.getItem("Lon");
 
-<<<<<<< HEAD
    if (localStorage.getItem('Lat') === null) {
       localStorage.setItem('Lat', 39.85);
-=======
-   if (newCity) {
-
-      const myApiKey = "b9d312a1f35b1b477f63e4d5e699509c";
-
-      const weatherUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${newCity}&limit=1&appid=${myApiKey}`;
-
-      fetch(weatherUrl)
-         .then(function (response) {
-            if (response.ok) {
-               response.json().then(function (data) {
-                  console.log(data);
-                  if (data.length > 0) {  // checks if the city found 
-                     const checkCity = data[0].name;
-                     console.log(checkCity);
-                     const nameArray = newCity.split('');
-                     nameArray[0] = nameArray[0].toUpperCase();
-                     newCity = nameArray.join('');
-                     if (checkCity.toLowerCase() == newCity.toLowerCase()) {  // checks (found city === entered city)
-                        console.log(data);
-                        const lat = data[0].lat;
-                        const lon = data[0].lon;
-                        console.log(lat);
-                        console.log(lon);
-                        L.marker([data[0].lat, data[0].lon])
-                           .addTo(layerGroup)
-                           .bindPopup(`${checkCity} - ${newCity}`); // add marker
-                        map.setView([lat, lon], 10) //set map to location, zoom to 10
-                        console.log(bounds.getCenter());
-                        localStorage.setItem("Lat", lat);
-                        localStorage.setItem("Lon", lon);
-                     }
-                  } else {
-                     alert("The city is not found!");
-                  }
-               });
-            }
-         });
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    }
    if (localStorage.getItem('Lon') === null) {
       localStorage.setItem('Lon', -104.67);
    }
 }
 
-<<<<<<< HEAD
 ///// Creating the map /////
 function createMap() {
 
@@ -299,18 +227,6 @@ function init() {
 
 getStoredLocation()
 init()
-=======
-// Data Refresh Function
-function dataRefresh() {
-   console.log("getting and setting new variable options then calling dataPull");
-
-   //clear all existing point
-   layerGroup.clearLayers();
-
-   // Pull new data
-   dataPull();
-};
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 
 
 // Function for toggling visibility of the options menu
@@ -408,27 +324,18 @@ $('.modal-container').on('click', function (evt) {
 
 // Search City Event
 $("#search-bar").on("submit", function (event) {
-<<<<<<< HEAD
    event.preventDefault();
    getCityCoord();
-=======
-   getCityCoord(event);
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    $("#search-city").val("");
 });
 
 // Refresh Data Event
-<<<<<<< HEAD
 dataRefreshBtn.on("click", function (event) {
    event.preventDefault();
-=======
-dataRefreshBtn.on("click", function () {
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
    dataRefreshBtn.attr('disabled', true);
    dataRefresh();
 });
 
-<<<<<<< HEAD
 const dateFrom = document.getElementById("from");
 const dateTo = document.getElementById("to");
 const allEvents = document.getElementById("checkbox-radio-option-all");
@@ -551,8 +458,6 @@ function showFormResults() {
    }
 }
 
-=======
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 //Open Options Menu
 $('#menu-open-btn').on('click', function (event) {
    event.preventDefault();
@@ -567,7 +472,6 @@ $('#menu-close-btn').on('click', function (event) {
    showFormResults();
 });
 
-<<<<<<< HEAD
 // Check event type checkbox 
 $('#event-types').on("click", function (event) {
    const element = event.target;
@@ -604,9 +508,6 @@ function displayMessage(string) {
 function hideMessage() {
    errorHandle.classList.add("hide");
 }
-=======
-
->>>>>>> 52d8e41e05e696a03019c8210ddaee4f7872c176
 
 
 
