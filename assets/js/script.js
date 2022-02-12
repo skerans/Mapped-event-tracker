@@ -73,7 +73,6 @@ let storedLon;
 let dateStart = new Date();
 let dateEnd = new Date();
 
-// let eventTypeArr = ['wildfires'];
 
 ///// FUNCTIONS /////
 
