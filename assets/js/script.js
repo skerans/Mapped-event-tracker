@@ -79,27 +79,6 @@ let storedLon;
 let dateStart = new Date();
 let dateEnd = new Date();
 
-
-//Date Variables and set default date items
-//set today's date variable "date From" default
-let today = new Date(); //credit: Stack Overflow
-let dd = String(today.getDate()).padStart(2, '0');
-let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0
-let yyyy = today.getFullYear();
-today = yyyy + '-' + mm + '-' + dd;
-let dateEnd = today;
-
-//set today's date minus 30 days variable "date Start" default
-let todayMinus = new Date();
-todayMinus.setDate(todayMinus.getDate()-30); //today minus 30 days
-dd = String(todayMinus.getDate()).padStart(2, '0');
-mm = String(todayMinus.getMonth() + 1).padStart(2, '0'); //January is 0
-yyyy = todayMinus.getFullYear();
-todayMinus = yyyy + '-' + mm + '-' + dd;
-let dateStart = todayMinus;
-console.log(`date Start is: ${dateStart}`);
-console.log(`date End is: ${dateEnd}`);
-
 ///// FUNCTIONS /////
 
 // This function gets the boundaries of the current map view
