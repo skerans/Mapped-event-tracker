@@ -1,3 +1,4 @@
+
 //load leaflet API
 //Modal Prompt
 //set buttons and items to visible as applicable for iinitial functionality
@@ -326,6 +327,8 @@ $("#search-bar").on("submit", function (event) {
 dataRefreshBtn.on("click", function () {
    dataRefreshBtn.attr('disabled', true);
    dataRefresh();
+   // let mapCenter = map.getCenter()
+   // console.log(mapCenter);
 });
 
 //Open Options Menu
