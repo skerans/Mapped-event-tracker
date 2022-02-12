@@ -119,8 +119,10 @@ function dataPull() {
    layerGroup.clearLayers();
    //query eonet API
 
+// let eventTypesArr = [];
+
 if (dateEnd >= dateStart) {
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&limit=${eventCount}&status=all`;
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&category=wildfires&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
@@ -556,27 +558,27 @@ $('#menu-close-btn').on('click', function (event) {
 });
 
 // Check event type checkbox 
-$('#event-types').on("click", function (event) {
-   const element = event.target;
-   if (element == allEvents) {
-      allEvents.checked = true;
-      wildfires.checked = false;
-      severeStroms.checked = false;
-      volcanoes.checked = false;
-      seaLakeIce.checked = false;
-      earthquakes.checked = false;
-   } else {
-      allEvents.checked = false;
-      if (wildfires.checked && severeStroms.checked && volcanoes.checked && seaLakeIce.checked && earthquakes.checked) {
-         allEvents.checked = true;
-         wildfires.checked = false;
-         severeStroms.checked = false;
-         volcanoes.checked = false;
-         seaLakeIce.checked = false;
-         earthquakes.checked = false;
-      }
-   }
-});
+// $('#event-types').on("click", function (event) {
+//    const element = event.target;
+//    if (element == allEvents) {
+//       allEvents.checked = true;
+//       wildfires.checked = false;
+//       severeStroms.checked = false;
+//       volcanoes.checked = false;
+//       seaLakeIce.checked = false;
+//       earthquakes.checked = false;
+//    } else {
+//       allEvents.checked = false;
+//       if (wildfires.checked && severeStroms.checked && volcanoes.checked && seaLakeIce.checked && earthquakes.checked) {
+//          allEvents.checked = true;
+//          wildfires.checked = false;
+//          severeStroms.checked = false;
+//          volcanoes.checked = false;
+//          seaLakeIce.checked = false;
+//          earthquakes.checked = false;
+//       }
+//    }
+// });
 
 function displayMessage(string) {
    errorHandle.classList.remove("hide");
