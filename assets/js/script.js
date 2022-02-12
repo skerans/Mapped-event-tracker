@@ -54,6 +54,8 @@ let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
+const dateFrom = document.getElementById("from");
+const dateTo = document.getElementById("to");
 
 //map variables
 let layerGroup;
@@ -66,6 +68,10 @@ let bounds;
 
 let storedLat;
 let storedLon;
+
+//Date Variables 
+let dateStart = new Date();
+let dateEnd = new Date();
 
 // let eventTypeArr = ['wildfires'];
 
@@ -147,6 +153,9 @@ function dataPull() {
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
+         console.log(`data.events is: ${data.events}`);
+         var pointList = [];
+         var polygonPoints = [];
          let eventData = data.events;
          console.log(eventData);//DELETE LATER
          console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
@@ -289,8 +298,37 @@ function init() {
    dataPull();
 }
 
-getStoredLocation()
-init()
+// setting default date range to 30 days and future date would not be allowed
+function setDatePicker() {
+   //get today's date 
+   let today = new Date();
+   let dd = String(today.getDate()).padStart(2, '0');
+   let mm = String(today.getMonth() + 1).padStart(2, '0');
+   let yyyy = today.getFullYear();
+   today = yyyy + '-' + mm + '-' + dd;  
+   //get today's date minus 30 days 
+   let todayMinus = new Date();
+   todayMinus.setDate(todayMinus.getDate() - 90); // today minus 30 days
+   dd = String(todayMinus.getDate()).padStart(2, '0');
+   mm = String(todayMinus.getMonth() + 1).padStart(2, '0');
+   yyyy = todayMinus.getFullYear();
+   todayMinus = yyyy + '-' + mm + '-' + dd;
+   // set default date
+   dateStart = todayMinus;
+   dateEnd = today;
+   dateFrom.value = todayMinus;
+   dateTo.value = today;
+   // future date restriction
+   dateFrom.setAttribute("max", today);
+   dateTo.setAttribute("max", today);
+   console.log(`date Start is: ${dateStart}`);
+   console.log(`date End is: ${dateEnd}`);
+};
+
+
+getStoredLocation();
+setDatePicker();
+init();
 
 
 
