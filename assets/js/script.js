@@ -84,11 +84,66 @@ function getNewBoundaries() {
 }
 
 
+// Checkbox UI Management
+
+// Variables
+checkboxAll = $('#checkbox-all');
+singleEventTypeCheckbox = $('.single-event-type');
+
+
+// Event Handlers
+checkboxAll.on('change', function () {
+   if (!$(this).is(':checked')) {
+      console.log('Unchecking all event types');
+      singleEventTypeCheckbox.each( function () {
+         console.log('checking other checkboxes')
+         if ($(this).prop('checked', true)) {
+            $(this).prop('checked', false);
+         }
+      })
+   } else {
+      console.log('Now Im checked!')
+      singleEventTypeCheckbox.each( function () {
+         $(this).prop('checked', true);
+      })
+   }
+})
+
+singleEventTypeCheckbox.on('change', function () {
+   if ($('.single-event-type:checked').length == singleEventTypeCheckbox.length) {
+      checkboxAll.prop('checked', true);
+   }
+
+   if (!$(this).is(':checked')) {
+      console.log('unchecking this type')
+      checkboxAll.prop('checked', false);
+   }
+})
+
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
    //query eonet API
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
+
+   // NM checkbox functionality
+   // Looking at the checkboxes and if all or one is checked, push that event type to eventTypesArr which then is passed to the API call
+   let eventTypesArr = [];
+   console.log(eventTypesArr);
+   if (checkboxAll.is(':checked')) {
+      console.log('all event types checked');
+      eventTypesArr = [];
+   } else {
+      singleEventTypeCheckbox.each( function() {
+         if ($(this).is(':checked')) {
+            console.log($(this).attr('data-event-type') + ' is checked');
+            eventTypesArr.push($(this).attr('data-event-type'));
+         };
+       });
+   }
+
+   console.log(eventTypesArr);
+
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&category=${eventTypesArr}&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
