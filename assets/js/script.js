@@ -74,7 +74,6 @@ let storedLon;
 let dateStart = new Date();
 let dateEnd = new Date();
 
-// let eventTypeArr = ['wildfires'];
 
 ///// FUNCTIONS /////
 
@@ -261,8 +260,6 @@ function getCityCoord(event) {
                            .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
                         console.log(bounds.getCenter());
-                        localStorage.setItem("Lat", lat);
-                        localStorage.setItem("Lon", lon);
                      }
                   } else {
                      alert("The city is not found!");
@@ -422,6 +419,9 @@ $("#search-bar").on("submit", function (event) {
 dataRefreshBtn.on("click", function () {
    dataRefreshBtn.attr('disabled', true);
    dataRefresh();
+   let mapCenter = [(minLat + maxLat)/ 2, (minLong + maxLong)/ 2];
+   localStorage.setItem("Lat", mapCenter[0]);
+   localStorage.setItem("Lon", mapCenter[1]);
 });
 
 //Open Options Menu
