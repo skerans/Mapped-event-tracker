@@ -248,7 +248,9 @@ function getCityCoord(event) {
                response.json().then(function (data) {
                   console.log(data);
                   if (data.length > 0) {  // checks if the city found 
+                     errorHandle.style.backgroundColor = "hsla(0, 0%, 20%, .7)";
                      const checkCity = data[0].name;
+                     displayMessage(`Showing area for ${checkCity}`)
                      console.log(checkCity);
                      const nameArray = newCity.split('');
                      nameArray[0] = nameArray[0].toUpperCase();
@@ -266,7 +268,8 @@ function getCityCoord(event) {
                         console.log(bounds.getCenter());
                      }
                   } else {
-                     alert("The city is not found!");
+                     displayMessage("That is not a city, dummy")
+                     errorHandle.style.backgroundColor = "red";
                   }
                });
             }
