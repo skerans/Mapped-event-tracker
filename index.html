@@ -63,7 +63,7 @@
             <input type="date" id="to" name="to" class="to pure-u-5-5" placeholder="mm/dd/yyyy">
           </div>
 
-          <div class='menu-section'>
+          <div class='menu-section' id="event-types">
             <h5>Event Types</h5>
             <label for="checkbox-radio-option-all" class="pure-checkbox">
               <input type="checkbox" id="checkbox-all" value="" checked/> All Types
@@ -102,8 +102,11 @@
       <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
       <button class="pure-button btn-secondary modal-btn" id='about-btn' data-modal='about'><i class="far fa-info" data-modal='about'></i>About</button>
     </div>
-
-    
+   
+    <!-- Error Message -->
+    <div id="error-message" class="hide">
+      <p>Error</p>
+    </div>
       
   </main>
 
