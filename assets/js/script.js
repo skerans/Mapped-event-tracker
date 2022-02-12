@@ -113,6 +113,8 @@ checkboxAll.on('change', function () {
          $(this).prop('checked', true);
       })
    }
+
+   dataRefreshBtn.attr('disabled', false);
 })
 
 singleEventTypeCheckbox.on('change', function () {
@@ -124,6 +126,8 @@ singleEventTypeCheckbox.on('change', function () {
       console.log('unchecking this type')
       checkboxAll.prop('checked', false);
    }
+
+   dataRefreshBtn.attr('disabled', false);
 })
 
 
