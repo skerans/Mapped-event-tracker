@@ -125,7 +125,6 @@ singleEventTypeCheckbox.on('change', function () {
 function dataPull() {
    //query eonet API
 
-
    // NM checkbox functionality
    // Looking at the checkboxes and if all or one is checked, push that event type to eventTypesArr which then is passed to the API call
    let eventTypesArr = [];
