@@ -160,12 +160,62 @@ function dataPull() {
          console.log(eventData);//DELETE LATER
          console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
          //add markers to map based on eventData length
-         for (let index = 0; index < eventData.length; index++) {
-            var date = new Date(data.events[index].geometry[0].date);
-            var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
-            eventMarker.addTo(layerGroup)
-               .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-         }
+         // for (let index = 0; index < eventData.length; index++) {
+         //    var date = new Date(data.events[index].geometry[0].date);
+         //    var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
+         //    eventMarker.addTo(layerGroup)
+         //       .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+         // }
+         if (eventData.length > 0) {
+            for (let index = 0; index < eventData.length; index++) {
+               console.log(data.events[index].geometry[0].type);
+               // if (data.events[index].geometry.length > 2 && data.events[index].geometry[0].type !== "Polygon"){
+               if (data.events[index].geometry[0].type !== "Polygon"){
+                  if (data.events[index].geometry.length > 2){
+                     //build polyline points array
+                     for (let i = 0; i < data.events[index].geometry.length; i++) {
+                        // console.log(`${data.events[index].title} is greater than 2`);
+                        // polyLineAry.push (data.events[index].geometry[i].coordinates);
+                        pointList.push (new L.LatLng(data.events[index].geometry[i].coordinates[1], data.events[index].geometry[i].coordinates[0]));
+                        // console.log(pointList[i]);
+                     };
+                     //add polyline to map
+                     // console.log(pointList);
+                     var drawPolyline = new L.polyline(pointList, {
+                        color: 'red',
+                        weight: 2,
+                        opacity: 0.25,
+                        smoothFactor: 1
+                     });
+                     drawPolyline.addTo(layerGroup);
+                     pointList = [];
+                  };
+               var date = new Date(data.events[index].geometry[0].date);
+               var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
+               eventMarker.addTo(layerGroup)
+                  .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+               }
+               else{
+                  //psuedo code: add polygon here
+                  console.log(`There was a polygon`);
+                  // console.log(data.events[index].geometry[0].coordinates[0]);
+                  for (let i = 0; i < data.events[index].geometry[0].coordinates[0].length; i++) {
+                     polygonPoints.push ([data.events[index].geometry[0].coordinates[0][i][1], data.events[index].geometry[0].coordinates[0][i][0]]);
+                  };
+                  console.log(polygonPoints);
+                  var polygon = new L.polygon(polygonPoints, {
+                     color: 'orange',
+                     opacity: 0.25,
+                  });
+                  polygon.addTo(layerGroup);
+                  polygonPoints = [];
+               };
+            }
+            // displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
+         } else {
+            console.log(`No event found in this area between ${dateStart} and ${dateEnd}`);
+            // displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
+         };
       });
    console.log("API call complete");//DELETE later
    }
