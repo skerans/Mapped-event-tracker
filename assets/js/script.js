@@ -56,6 +56,7 @@ let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
 const dateFrom = document.getElementById("from");
 const dateTo = document.getElementById("to");
+const errorHandle = document.getElementById("error-message");
 
 //map variables
 let layerGroup;
@@ -129,8 +130,9 @@ singleEventTypeCheckbox.on('change', function () {
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
-   //query eonet API
-
+   //set date variables based on datepicker values
+   dateStart = dateFrom.value;
+   dateEnd = dateTo.value;
    // NM checkbox functionality
    // Looking at the checkboxes and if all or one is checked, push that event type to eventTypesArr which then is passed to the API call
    let eventTypesArr = [];
@@ -211,10 +213,10 @@ function dataPull() {
                   polygonPoints = [];
                };
             }
-            // displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
+            displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
          } else {
             console.log(`No event found in this area between ${dateStart} and ${dateEnd}`);
-            // displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
+            displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
          };
       });
    console.log("API call complete");//DELETE later
@@ -373,6 +375,11 @@ function setDatePicker() {
    dateTo.setAttribute("max", today);
    console.log(`date Start is: ${dateStart}`);
    console.log(`date End is: ${dateEnd}`);
+};
+
+function displayMessage(string) {
+   errorHandle.classList.remove("hide");
+   errorHandle.textContent = string;
 };
 
 
