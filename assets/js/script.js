@@ -80,26 +80,6 @@ let dateStart = new Date();
 let dateEnd = new Date();
 
 
-//Date Variables and set default date items
-//set today's date variable "date From" default
-// let today = new Date(); //credit: Stack Overflow
-// let dd = String(today.getDate()).padStart(2, '0');
-// let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0
-// let yyyy = today.getFullYear();
-// today = yyyy + '-' + mm + '-' + dd;
-// let dateEnd = today;
-
-// //set today's date minus 30 days variable "date Start" default
-// let todayMinus = new Date();
-// todayMinus.setDate(todayMinus.getDate()-30); //today minus 30 days
-// dd = String(todayMinus.getDate()).padStart(2, '0');
-// mm = String(todayMinus.getMonth() + 1).padStart(2, '0'); //January is 0
-// yyyy = todayMinus.getFullYear();
-// todayMinus = yyyy + '-' + mm + '-' + dd;
-// let dateStart = todayMinus;
-// console.log(`date Start is: ${dateStart}`);
-// console.log(`date End is: ${dateEnd}`);
-
 ///// FUNCTIONS /////
 
 // This function gets the boundaries of the current map view
@@ -125,15 +105,16 @@ if (dateEnd >= dateStart) {
       .then(response => response.json())
       .then(data => {
          console.log(data.events);
-         var pointList = [];
-         var polygonPoints = [];
+         let pointList = [];
+         let polygonPoints = [];
          if (data.events.length > 0) {
             let eventData = [];
             if (allEvents.checked) {
                eventData = data.events;
                console.log(eventData);
             } else {
-               let tempData = [data.events];
+               let tempData = data.events;
+               console.log(tempData);
                if (wildfires.checked) {
                   for (let i = 0; i < tempData.length; i++) {
                      let eventName = tempData[i].categories[0].id;
@@ -163,7 +144,6 @@ if (dateEnd >= dateStart) {
                      let eventName = tempData[i].categories[0].id;
                      if (eventName === "volcanoes") {
                         eventData.push(tempData[i])
-                        console.log(`tempData is ${tempData}`);
                      }
                   }
                   if (eventData.length === 0) {
@@ -195,7 +175,7 @@ if (dateEnd >= dateStart) {
                      displayMessage("No Earthquake event happened!");
                   }
                }
-               console.log(`line 197 ${eventData}`);
+               console.log(eventData);
             }
             if (eventData.length > 0) {
                for (let index = 0; index < eventData.length; index++) {
@@ -212,7 +192,7 @@ if (dateEnd >= dateStart) {
                         };
                         //add polyline to map
                         // console.log(pointList);
-                        var drawPolyline = new L.polyline(pointList, {
+                        let drawPolyline = new L.polyline(pointList, {
                            color: 'red',
                            weight: 2,
                            opacity: 0.25,
@@ -221,20 +201,20 @@ if (dateEnd >= dateStart) {
                         drawPolyline.addTo(layerGroup);
                         pointList = [];
                      };
-                  var date = new Date(eventData[index].geometry[0].date);
-                  var eventMarker = L.marker([eventData[index].geometry[0].coordinates[1], eventData[index].geometry[0].coordinates[0]]);
+                  let date = new Date(eventData[index].geometry[0].date);
+                  let eventMarker = L.marker([eventData[index].geometry[0].coordinates[1], eventData[index].geometry[0].coordinates[0]]);
                   eventMarker.addTo(layerGroup)
                      .bindPopup(`${eventData[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
                   }
                   else{
-                     //psuedo code: add polygon here
+                     //pseudo code: add polygon here
                      console.log(`There was a polygon`);
                      // console.log(data.events[index].geometry[0].coordinates[0]);
                      for (let i = 0; i < eventData[index].geometry[0].coordinates[0].length; i++) {
                         polygonPoints.push ([eventData[index].geometry[0].coordinates[0][i][1], eventData[index].geometry[0].coordinates[0][i][0]]);
                      };
                      console.log(polygonPoints);
-                     var polygon = new L.polygon(polygonPoints, {
+                     let polygon = new L.polygon(polygonPoints, {
                         color: 'orange',
                         opacity: 0.25,
                      });
