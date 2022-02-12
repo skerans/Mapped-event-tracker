@@ -50,9 +50,18 @@
 console.log("Start of JS");
 
 ///// GLOBAL VARIABLES /////
-let eventCount = 20;
+let eventCount = 60;
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
+const dateFrom = document.getElementById("from");
+const dateTo = document.getElementById("to");
+const allEvents = document.getElementById("checkbox-radio-option-all");
+const wildfires = document.getElementById("checkbox-radio-option-one");
+const severeStroms = document.getElementById("checkbox-radio-option-two");
+const volcanoes = document.getElementById("checkbox-radio-option-three");
+const seaLakeIce = document.getElementById("checkbox-radio-option-four");
+const earthquakes = document.getElementById("checkbox-radio-option-five");
+const errorHandle = document.getElementById("error-message");
 
 //map variables
 let layerGroup;
@@ -66,7 +75,10 @@ let bounds;
 let storedLat;
 let storedLon;
 
-// let eventTypeArr = ['wildfires'];
+//Date Variables 
+let dateStart = new Date();
+let dateEnd = new Date();
+
 
 ///// FUNCTIONS /////
 
@@ -84,31 +96,143 @@ function getNewBoundaries() {
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
+   layerGroup.clearLayers();
    //query eonet API
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&limit=${eventCount}&status=all`;
+
+if (dateEnd >= dateStart) {
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
+         console.log(data.events);
+         var pointList = [];
+         var polygonPoints = [];
          if (data.events.length > 0) {
-            let eventData = data.events;
-            console.log(eventData);//DELETE LATER
-            console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
-            //add markers to map based on eventData length
-            for (let index = 0; index < eventData.length; index++) {
-               var date = new Date(data.events[index].geometry[0].date);
-               var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
-               eventMarker.addTo(layerGroup)
-                  .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+            let eventData = [];
+            if (allEvents.checked) {
+               eventData = data.events;
+               console.log(eventData);
+            } else {
+               let tempData = data.events;
+               if (wildfires.checked) {
+                  for (let i = 0; i < tempData.length; i++) {
+                     let eventName = tempData[i].categories[0].id;
+                     if (eventName === "wildfires") {
+                        eventData.push(tempData[i])
+                     }
+                  }
+                  if (eventData.length === 0) {
+                     console.log("No wildfire event happened!");
+                     displayMessage("No wildfire event happened!");
+                  }
+               }
+               if (severeStroms.checked) {
+                  for (let i = 0; i < tempData.length; i++) {
+                     let eventName = tempData[i].categories[0].id;
+                     if (eventName === "severeStorms") {
+                        eventData.push(tempData[i])
+                     }
+                  }
+                  if (eventData.length === 0) {
+                     console.log("No Severe Storm event happened!");
+                     displayMessage("No Severe Storm event happened!");
+                  }
+               }
+               if (volcanoes.checked) {
+                  for (let i = 0; i < tempData.length; i++) {
+                     let eventName = tempData[i].categories[0].id;
+                     if (eventName === "volcanoes") {
+                        eventData.push(tempData[i])
+                     }
+                  }
+                  if (eventData.length === 0) {
+                     console.log("No Volcanoe event happened!");
+                     displayMessage("No Volcanoe event happened!");
+                  }
+               }
+               if (seaLakeIce.checked) {
+                  for (let i = 0; i < tempData.length; i++) {
+                     let eventName = tempData[i].categories[0].id;
+                     if (eventName === "seaLakeIce") {
+                        eventData.push(tempData[i])
+                     }
+                  }
+                  if (eventData.length === 0) {
+                     console.log("No Iceberg event happened!");
+                     displayMessage("No Iceberg event happened!");
+                  }
+               }
+               if (earthquakes.checked) {
+                  for (let i = 0; i < tempData.length; i++) {
+                     let eventName = tempData[i].categories[0].id;
+                     if (eventName === "earthquakes") {
+                        eventData.push(tempData[i])
+                     }
+                  }
+                  if (eventData.length === 0) {
+                     console.log("No Earthquake event happened!");
+                     displayMessage("No Earthquake event happened!");
+                  }
+               }
+               console.log(eventData);
             }
-            displayMessage(eventData.length + " event(s) found!");
+            if (eventData.length > 0) {
+               for (let index = 0; index < eventData.length; index++) {
+                  console.log(data.events[index].geometry[0].type);
+                  // if (data.events[index].geometry.length > 2 && data.events[index].geometry[0].type !== "Polygon"){
+                  if (data.events[index].geometry[0].type !== "Polygon"){
+                     if (data.events[index].geometry.length > 2){
+                        //build polyline points array
+                        for (let i = 0; i < data.events[index].geometry.length; i++) {
+                           // console.log(`${data.events[index].title} is greater than 2`);
+                           // polyLineAry.push (data.events[index].geometry[i].coordinates);
+                           pointList.push (new L.LatLng(data.events[index].geometry[i].coordinates[1], data.events[index].geometry[i].coordinates[0]));
+                           // console.log(pointList[i]);
+                        };
+                        //add polyline to map
+                        // console.log(pointList);
+                        var drawPolyline = new L.polyline(pointList, {
+                           color: 'red',
+                           weight: 2,
+                           opacity: 0.25,
+                           smoothFactor: 1
+                        });
+                        drawPolyline.addTo(layerGroup);
+                        pointList = [];
+                     };
+                  var date = new Date(data.events[index].geometry[0].date);
+                  var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
+                  eventMarker.addTo(layerGroup)
+                     .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+                  }
+                  else{
+                     //psuedo code: add polygon here
+                     console.log(`There was a polygon`);
+                     // console.log(data.events[index].geometry[0].coordinates[0]);
+                     for (let i = 0; i < data.events[index].geometry[0].coordinates[0].length; i++) {
+                        polygonPoints.push ([data.events[index].geometry[0].coordinates[0][i][1], data.events[index].geometry[0].coordinates[0][i][0]]);
+                     };
+                     console.log(polygonPoints);
+                     var polygon = new L.polygon(polygonPoints, {
+                        color: 'orange',
+                        opacity: 0.25,
+                     });
+                     polygon.addTo(layerGroup);
+                     polygonPoints = [];
+                  };
+               }
+               displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
+            } else {
+               console.log(`No event found in this area between ${dateStart} and ${dateEnd}`);
+               displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
+            }
          } else {
-            console.log("No event happened in this area!");
-            displayMessage("No event happened in this area!");
+            console.log(`No event found in this area between ${dateStart} and ${dateEnd}`);
+            displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
          }
       });
-   console.log("API call complete");//DELETE later
+   };
 };
-
 
 // Getting the city coordinates based on user entry in the city search bar
 function getCityCoord() {
@@ -153,7 +277,7 @@ function dataRefresh() {
    console.log("getting and setting new variable options then calling dataPull");
 
    //clear all existing point
-   layerGroup.clearLayers();
+   // layerGroup.clearLayers();
 
    // Pull new data
    dataPull();
@@ -219,6 +343,7 @@ function createMap() {
 
 //initial pull of data points from EONET
 function init() {
+   setDatePicker();  // Setting datePicker default value
    getStoredLocation();
    createMap();
    dataPull();
@@ -264,132 +389,141 @@ dataRefreshBtn.on("click", function (event) {
    dataRefresh();
 });
 
-const dateFrom = document.getElementById("from");
-const dateTo = document.getElementById("to");
-const allEvents = document.getElementById("checkbox-radio-option-all");
-const wildfires = document.getElementById("checkbox-radio-option-one");
-const severeStroms = document.getElementById("checkbox-radio-option-two");
-const volcanoes = document.getElementById("checkbox-radio-option-three");
-const seaLakeIce = document.getElementById("checkbox-radio-option-four");
-const earthquakes = document.getElementById("checkbox-radio-option-five");
-const errorHandle = document.getElementById("error-message");
-
-function setFormElements() {
-   let today = new Date();   // StackOverFlow
-   const dd = String(today.getDate()).padStart(2, '0');
-   const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-   const yyyy = today.getFullYear();
-   today = yyyy + '-' + mm + '-' + dd;  // The date would not be future date
+// setting default date range to 30 days and future date would not be allowed
+function setDatePicker() {
+   //get today's date 
+   let today = new Date();
+   let dd = String(today.getDate()).padStart(2, '0');
+   let mm = String(today.getMonth() + 1).padStart(2, '0');
+   let yyyy = today.getFullYear();
+   today = yyyy + '-' + mm + '-' + dd;  
+   //get today's date minus 30 days 
+   let todayMinus = new Date();
+   todayMinus.setDate(todayMinus.getDate() - 30); // today minus 30 days
+   dd = String(todayMinus.getDate()).padStart(2, '0');
+   mm = String(todayMinus.getMonth() + 1).padStart(2, '0');
+   yyyy = todayMinus.getFullYear();
+   todayMinus = yyyy + '-' + mm + '-' + dd;
+   // set default date
+   dateStart = todayMinus;
+   dateEnd = today;
+   dateFrom.value = todayMinus;
+   dateTo.value = today;
+   // future date restriction
    dateFrom.setAttribute("max", today);
    dateTo.setAttribute("max", today);
+   console.log(`date Start is: ${dateStart}`);
+   console.log(`date End is: ${dateEnd}`);
 }
+
 
 function showFormResults() {
-   let dateStart = dateFrom.value;
-   let dateEnd = dateTo.value;
+   dateStart = dateFrom.value;
+   dateEnd = dateTo.value;
+   getNewBoundaries();
+   dataPull();
 
    //clear all existing points
-   layerGroup.clearLayers();
+   // layerGroup.clearLayers();
 
-   if (dateEnd >= dateStart) {
-      let queryEONET = `https://eonet.gsfc.nasa.gov/api/v3/events?start=${dateStart}&end=${dateEnd}`;
-      fetch(queryEONET)
-         .then(response => response.json())
-         .then(data => {
-            console.log(data.events);
-            if (data.events.length > 0) {
-               let eventData = [];
-               if (allEvents.checked) {
-                  eventData = data.events;
-                  console.log(eventData);
-               } else {
-                  let tempData = data.events;
-                  if (wildfires.checked) {
-                     for (let i = 0; i < tempData.length; i++) {
-                        let eventName = tempData[i].categories[0].id;
-                        if (eventName === "wildfires") {
-                           eventData.push(tempData[i])
-                        }
-                     }
-                     if (eventData.length === 0) {
-                        console.log("No wildfire event happened!");
-                        displayMessage("No wildfire event happened!");
-                     }
-                  }
-                  if (severeStroms.checked) {
-                     for (let i = 0; i < tempData.length; i++) {
-                        let eventName = tempData[i].categories[0].id;
-                        if (eventName === "severeStorms") {
-                           eventData.push(tempData[i])
-                        }
-                     }
-                     if (eventData.length === 0) {
-                        console.log("No Severe Storm event happened!");
-                        displayMessage("No Severe Storm event happened!");
-                     }
-                  }
-                  if (volcanoes.checked) {
-                     for (let i = 0; i < tempData.length; i++) {
-                        let eventName = tempData[i].categories[0].id;
-                        if (eventName === "volcanoes") {
-                           eventData.push(tempData[i])
-                        }
-                     }
-                     if (eventData.length === 0) {
-                        console.log("No Volcanoe event happened!");
-                        displayMessage("No Volcanoe event happened!");
-                     }
-                  }
-                  if (seaLakeIce.checked) {
-                     for (let i = 0; i < tempData.length; i++) {
-                        let eventName = tempData[i].categories[0].id;
-                        if (eventName === "seaLakeIce") {
-                           eventData.push(tempData[i])
-                        }
-                     }
-                     if (eventData.length === 0) {
-                        console.log("No Iceberg event happened!");
-                        displayMessage("No Iceberg event happened!");
-                     }
-                  }
-                  if (earthquakes.checked) {
-                     for (let i = 0; i < tempData.length; i++) {
-                        let eventName = tempData[i].categories[0].id;
-                        if (eventName === "earthquakes") {
-                           eventData.push(tempData[i])
-                        }
-                     }
-                     if (eventData.length === 0) {
-                        console.log("No Earthquake event happened!");
-                        displayMessage("No Earthquake event happened!");
-                     }
-                  }
-                  console.log(eventData);
-               }
-               if (eventData.length > 0) {
-                  for (let index = 0; index < eventData.length; index++) {
-                     var date = new Date(eventData[index].geometry[0].date);
-                     var eventMarker = L.marker([eventData[index].geometry[0].coordinates[1], eventData[index].geometry[0].coordinates[0]]);
-                     eventMarker.addTo(layerGroup)
-                        .bindPopup(`${eventData[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-                  }
-                  displayMessage(eventData.length + " event(s) found!");
-               } else {
-                  console.log("No event found!");
-                  displayMessage("No event found!");
-               }
-            } else {
-               console.log("No event found!");
-               displayMessage("No event found!");
-            }
-         });
-   }
-}
+//    if (dateEnd >= dateStart) {
+//       let queryEONET = `https://eonet.gsfc.nasa.gov/api/v3/events?start=${dateStart}&end=${dateEnd}`;
+//       fetch(queryEONET)
+//          .then(response => response.json())
+//          .then(data => {
+//             console.log(data.events);
+//             if (data.events.length > 0) {
+//                let eventData = [];
+//                if (allEvents.checked) {
+//                   eventData = data.events;
+//                   console.log(eventData);
+//                } else {
+//                   let tempData = data.events;
+//                   if (wildfires.checked) {
+//                      for (let i = 0; i < tempData.length; i++) {
+//                         let eventName = tempData[i].categories[0].id;
+//                         if (eventName === "wildfires") {
+//                            eventData.push(tempData[i])
+//                         }
+//                      }
+//                      if (eventData.length === 0) {
+//                         console.log("No wildfire event happened!");
+//                         displayMessage("No wildfire event happened!");
+//                      }
+//                   }
+//                   if (severeStroms.checked) {
+//                      for (let i = 0; i < tempData.length; i++) {
+//                         let eventName = tempData[i].categories[0].id;
+//                         if (eventName === "severeStorms") {
+//                            eventData.push(tempData[i])
+//                         }
+//                      }
+//                      if (eventData.length === 0) {
+//                         console.log("No Severe Storm event happened!");
+//                         displayMessage("No Severe Storm event happened!");
+//                      }
+//                   }
+//                   if (volcanoes.checked) {
+//                      for (let i = 0; i < tempData.length; i++) {
+//                         let eventName = tempData[i].categories[0].id;
+//                         if (eventName === "volcanoes") {
+//                            eventData.push(tempData[i])
+//                         }
+//                      }
+//                      if (eventData.length === 0) {
+//                         console.log("No Volcanoe event happened!");
+//                         displayMessage("No Volcanoe event happened!");
+//                      }
+//                   }
+//                   if (seaLakeIce.checked) {
+//                      for (let i = 0; i < tempData.length; i++) {
+//                         let eventName = tempData[i].categories[0].id;
+//                         if (eventName === "seaLakeIce") {
+//                            eventData.push(tempData[i])
+//                         }
+//                      }
+//                      if (eventData.length === 0) {
+//                         console.log("No Iceberg event happened!");
+//                         displayMessage("No Iceberg event happened!");
+//                      }
+//                   }
+//                   if (earthquakes.checked) {
+//                      for (let i = 0; i < tempData.length; i++) {
+//                         let eventName = tempData[i].categories[0].id;
+//                         if (eventName === "earthquakes") {
+//                            eventData.push(tempData[i])
+//                         }
+//                      }
+//                      if (eventData.length === 0) {
+//                         console.log("No Earthquake event happened!");
+//                         displayMessage("No Earthquake event happened!");
+//                      }
+//                   }
+//                   console.log(eventData);
+//                }
+//                if (eventData.length > 0) {
+//                   for (let index = 0; index < eventData.length; index++) {
+//                      var date = new Date(eventData[index].geometry[0].date);
+//                      var eventMarker = L.marker([eventData[index].geometry[0].coordinates[1], eventData[index].geometry[0].coordinates[0]]);
+//                      eventMarker.addTo(layerGroup)
+//                         .bindPopup(`${eventData[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
+//                   }
+//                   displayMessage(eventData.length + " event(s) found!");
+//                } else {
+//                   console.log("No event found!");
+//                   displayMessage("No event found!");
+//                }
+//             } else {
+//                console.log("No event found!");
+//                displayMessage("No event found!");
+//             }
+//          });
+//    }
+};
 
 //Open Options Menu
 $('#menu-open-btn').on('click', function (event) {
    event.preventDefault();
-   setFormElements();
    menuToggleHide();
 });
 
@@ -403,11 +537,6 @@ $('#menu-close-btn').on('click', function (event) {
 // Check event type checkbox 
 $('#event-types').on("click", function (event) {
    const element = event.target;
-   // if (elements) {
-   //    elements.checked = false;
-   // } else {
-   //    elements.checked = true;
-   // }
    if (element == allEvents) {
       allEvents.checked = true;
       wildfires.checked = false;
