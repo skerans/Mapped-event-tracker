@@ -53,6 +53,15 @@ console.log("Start of JS");
 let eventCount = 60;
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
+const dateFrom = document.getElementById("from");
+const dateTo = document.getElementById("to");
+const allEvents = document.getElementById("checkbox-radio-option-all");
+const wildfires = document.getElementById("checkbox-radio-option-one");
+const severeStroms = document.getElementById("checkbox-radio-option-two");
+const volcanoes = document.getElementById("checkbox-radio-option-three");
+const seaLakeIce = document.getElementById("checkbox-radio-option-four");
+const earthquakes = document.getElementById("checkbox-radio-option-five");
+const errorHandle = document.getElementById("error-message");
 
 //map variables
 let layerGroup;
@@ -66,7 +75,10 @@ let bounds;
 let storedLat;
 let storedLon;
 
-// let eventTypeArr = ['wildfires'];
+//Date Variables 
+let dateStart = new Date();
+let dateEnd = new Date();
+
 
 //Date Variables and set default date items
 //set today's date variable "date From" default
@@ -104,8 +116,6 @@ function getNewBoundaries() {
 
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
-   // let dateStart = dateFrom.value;
-   // let dateEnd = dateTo.value;
    layerGroup.clearLayers();
    //query eonet API
 
@@ -353,6 +363,7 @@ function createMap() {
 
 //initial pull of data points from EONET
 function init() {
+   setDatePicker();  // Setting datePicker default value
    getStoredLocation();
    createMap();
    dataPull();
@@ -398,32 +409,39 @@ dataRefreshBtn.on("click", function (event) {
    dataRefresh();
 });
 
-const dateFrom = document.getElementById("from");
-const dateTo = document.getElementById("to");
-const allEvents = document.getElementById("checkbox-radio-option-all");
-const wildfires = document.getElementById("checkbox-radio-option-one");
-const severeStroms = document.getElementById("checkbox-radio-option-two");
-const volcanoes = document.getElementById("checkbox-radio-option-three");
-const seaLakeIce = document.getElementById("checkbox-radio-option-four");
-const earthquakes = document.getElementById("checkbox-radio-option-five");
-const errorHandle = document.getElementById("error-message");
-
-function setFormElements() {
-   // let today = new Date();   // StackOverFlow
-   // const dd = String(today.getDate()).padStart(2, '0');
-   // const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-   // const yyyy = today.getFullYear();
-   // today = yyyy + '-' + mm + '-' + dd;  // The date would not be future date
+// setting default date range to 30 days and future date would not be allowed
+function setDatePicker() {
+   //get today's date 
+   let today = new Date();
+   let dd = String(today.getDate()).padStart(2, '0');
+   let mm = String(today.getMonth() + 1).padStart(2, '0');
+   let yyyy = today.getFullYear();
+   today = yyyy + '-' + mm + '-' + dd;  
+   //get today's date minus 30 days 
+   let todayMinus = new Date();
+   todayMinus.setDate(todayMinus.getDate() - 30); // today minus 30 days
+   dd = String(todayMinus.getDate()).padStart(2, '0');
+   mm = String(todayMinus.getMonth() + 1).padStart(2, '0');
+   yyyy = todayMinus.getFullYear();
+   todayMinus = yyyy + '-' + mm + '-' + dd;
+   // set default date
+   dateStart = todayMinus;
+   dateEnd = today;
+   dateFrom.value = todayMinus;
+   dateTo.value = today;
+   // future date restriction
    dateFrom.setAttribute("max", today);
    dateTo.setAttribute("max", today);
+   console.log(`date Start is: ${dateStart}`);
+   console.log(`date End is: ${dateEnd}`);
 }
 
+
 function showFormResults() {
-   // let dateStart = dateFrom.value;
    dateStart = dateFrom.value;
-   // let dateEnd = dateTo.value;
    dateEnd = dateTo.value;
-dataPull();
+   getNewBoundaries();
+   dataPull();
 
    //clear all existing points
    // layerGroup.clearLayers();
@@ -526,7 +544,6 @@ dataPull();
 //Open Options Menu
 $('#menu-open-btn').on('click', function (event) {
    event.preventDefault();
-   setFormElements();
    menuToggleHide();
 });
 
@@ -540,11 +557,6 @@ $('#menu-close-btn').on('click', function (event) {
 // Check event type checkbox 
 $('#event-types').on("click", function (event) {
    const element = event.target;
-   // if (elements) {
-   //    elements.checked = false;
-   // } else {
-   //    elements.checked = true;
-   // }
    if (element == allEvents) {
       allEvents.checked = true;
       wildfires.checked = false;
