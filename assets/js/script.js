@@ -142,8 +142,8 @@ function dataPull() {
    }
 
    console.log(eventTypesArr);
-
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&category=${eventTypesArr}&limit=${eventCount}&status=all`;
+   if (dateEnd >= dateStart) {
+   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&category=${eventTypesArr}&limit=${eventCount}&status=all`;
    fetch(queryEONET)
       .then(response => response.json())
       .then(data => {
@@ -159,6 +159,7 @@ function dataPull() {
          }
       });
    console.log("API call complete");//DELETE later
+   }
 };
 
 
