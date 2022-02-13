@@ -1,6 +1,5 @@
 ///// GLOBAL VARIABLES /////
-let eventCount = 20;
-let searchBtn = document.getElementById("search-btn");
+let eventCount = 60;
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
 const dateFrom = document.getElementById("from");
