@@ -1,54 +1,3 @@
-
-//load leaflet API
-//Modal Prompt
-//set buttons and items to visible as applicable for iinitial functionality
-
-//set default date range to 7 days
-
-//check for recent location in local storage, if not set default location to Denver
-
-
-//??EONET search filtering? Do we have to pull data into arrays then have ready for user selections, or can we API pull based on filter criteria??//
-
-//set background to leaflett map
-
-//search bar with clickable search button
-
-//hamburger menu
-//two date pickers
-//datepicker FROM
-//datepicker TO
-//checkboxes for Event Types
-//API call to determine different event types available then dynamically create checkboxes
-
-//help and about div “buttons” bottom right - clickable with modal popup?
-
-//Invisible DIV created for errors, will be set visible when error is needed
-//div section left(small) is for error icon
-//div section middle is for error text
-//div section right(small)
-
-//when a user searches location
-//convert to string
-//use API to convert city to coordinates
-//check if status returns OK - Error IF not.
-//Pass Coordinates to Leaflet - refresh screen with new location
-
-//when user changes Date FROM
-//Error check to see if FROM is earlier than TO
-//Get new data based on new date range and map scope - REFRESH
-//when user changes Date TO
-//Error check to see if TO is earlier than FROM
-//Get new data based on new date range  and map scope - REFRESH 
-
-//when user selects a checkbox option
-//Get new data based on current date range and map scope - REFRESH
-
-//when item is on map
-//item hover shows the summary of event
-
-console.log("Start of JS");
-
 ///// GLOBAL VARIABLES /////
 let eventCount = 20;
 let searchBtn = document.getElementById("search-btn");
@@ -66,7 +15,6 @@ let maxLong;
 let minLat;
 let maxLat;
 let bounds;
-
 let storedLat;
 let storedLon;
 
@@ -74,6 +22,9 @@ let storedLon;
 let dateStart = new Date();
 let dateEnd = new Date();
 
+//Checkbox Variables
+checkboxAll = $('#checkbox-all');
+singleEventTypeCheckbox = $('.single-event-type');
 
 ///// FUNCTIONS /////
 
@@ -92,28 +43,19 @@ function getNewBoundaries() {
 
 // Checkbox UI Management
 
-// Variables
-checkboxAll = $('#checkbox-all');
-singleEventTypeCheckbox = $('.single-event-type');
-
-
 // Event Handlers
 checkboxAll.on('change', function () {
    if (!$(this).is(':checked')) {
-      console.log('Unchecking all event types');
-      singleEventTypeCheckbox.each( function () {
-         console.log('checking other checkboxes')
+      singleEventTypeCheckbox.each(function () {
          if ($(this).prop('checked', true)) {
             $(this).prop('checked', false);
          }
       })
    } else {
-      console.log('Now Im checked!')
-      singleEventTypeCheckbox.each( function () {
+      singleEventTypeCheckbox.each(function () {
          $(this).prop('checked', true);
       })
    }
-
    dataRefreshBtn.attr('disabled', false);
 })
 
@@ -123,106 +65,80 @@ singleEventTypeCheckbox.on('change', function () {
    }
 
    if (!$(this).is(':checked')) {
-      console.log('unchecking this type')
       checkboxAll.prop('checked', false);
    }
 
    dataRefreshBtn.attr('disabled', false);
 })
 
-
 // This function fetches event data from the EONET API and uses it to populate the event markers on the map
 function dataPull() {
    //set date variables based on datepicker values
    dateStart = dateFrom.value;
    dateEnd = dateTo.value;
-   // NM checkbox functionality
+
    // Looking at the checkboxes and if all or one is checked, push that event type to eventTypesArr which then is passed to the API call
    let eventTypesArr = [];
-   console.log(eventTypesArr);
    if (checkboxAll.is(':checked')) {
-      console.log('all event types checked');
       eventTypesArr = [];
    } else {
-      singleEventTypeCheckbox.each( function() {
+      singleEventTypeCheckbox.each(function () {
          if ($(this).is(':checked')) {
-            console.log($(this).attr('data-event-type') + ' is checked');
             eventTypesArr.push($(this).attr('data-event-type'));
          };
-       });
-   }
-
-   console.log(eventTypesArr);
-   if (dateEnd >= dateStart) {
-   let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&category=${eventTypesArr}&limit=${eventCount}&status=all`;
-   fetch(queryEONET)
-      .then(response => response.json())
-      .then(data => {
-         console.log(`data.events is: ${data.events}`);
-         var pointList = [];
-         var polygonPoints = [];
-         let eventData = data.events;
-         console.log(eventData);//DELETE LATER
-         console.log(`eventdata length is ${eventData.length}`);//DELETE LATER
-         //add markers to map based on eventData length
-         // for (let index = 0; index < eventData.length; index++) {
-         //    var date = new Date(data.events[index].geometry[0].date);
-         //    var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
-         //    eventMarker.addTo(layerGroup)
-         //       .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-         // }
-         if (eventData.length > 0) {
-            for (let index = 0; index < eventData.length; index++) {
-               console.log(data.events[index].geometry[0].type);
-               // if (data.events[index].geometry.length > 2 && data.events[index].geometry[0].type !== "Polygon"){
-               if (data.events[index].geometry[0].type !== "Polygon"){
-                  if (data.events[index].geometry.length > 2){
-                     //build polyline points array
-                     for (let i = 0; i < data.events[index].geometry.length; i++) {
-                        // console.log(`${data.events[index].title} is greater than 2`);
-                        // polyLineAry.push (data.events[index].geometry[i].coordinates);
-                        pointList.push (new L.LatLng(data.events[index].geometry[i].coordinates[1], data.events[index].geometry[i].coordinates[0]));
-                        // console.log(pointList[i]);
-                     };
-                     //add polyline to map
-                     // console.log(pointList);
-                     var drawPolyline = new L.polyline(pointList, {
-                        color: 'red',
-                        weight: 2,
-                        opacity: 0.25,
-                        smoothFactor: 1
-                     });
-                     drawPolyline.addTo(layerGroup);
-                     pointList = [];
-                  };
-               var date = new Date(data.events[index].geometry[0].date);
-               var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
-               eventMarker.addTo(layerGroup)
-                  .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); //marker description with date
-               }
-               else{
-                  //psuedo code: add polygon here
-                  console.log(`There was a polygon`);
-                  // console.log(data.events[index].geometry[0].coordinates[0]);
-                  for (let i = 0; i < data.events[index].geometry[0].coordinates[0].length; i++) {
-                     polygonPoints.push ([data.events[index].geometry[0].coordinates[0][i][1], data.events[index].geometry[0].coordinates[0][i][0]]);
-                  };
-                  console.log(polygonPoints);
-                  var polygon = new L.polygon(polygonPoints, {
-                     color: 'orange',
-                     opacity: 0.25,
-                  });
-                  polygon.addTo(layerGroup);
-                  polygonPoints = [];
-               };
-            }
-            displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
-         } else {
-            console.log(`No event found in this area between ${dateStart} and ${dateEnd}`);
-            displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
-         };
       });
-   console.log("API call complete");//DELETE later
+   }
+   
+   if (dateEnd >= dateStart) {
+      let queryEONET = `https://eonet.sci.gsfc.nasa.gov/api/v3/events?bbox=${minLong},${maxLat},${maxLong},${minLat}&start=${dateStart}&end=${dateEnd}&category=${eventTypesArr}&limit=${eventCount}&status=all`;
+      fetch(queryEONET)
+         .then(response => response.json())
+         .then(data => {
+            var pointList = [];
+            var polygonPoints = [];
+            let eventData = data.events;
+            console.log(eventData);
+            if (eventData.length > 0) {
+               for (let index = 0; index < eventData.length; index++) {
+                  if (data.events[index].geometry[0].type !== "Polygon") {
+                     if (data.events[index].geometry.length > 2) {
+                        //build polyline points array
+                        for (let i = 0; i < data.events[index].geometry.length; i++) {
+                           pointList.push(new L.LatLng(data.events[index].geometry[i].coordinates[1], data.events[index].geometry[i].coordinates[0]));
+                        };
+                        //add polyline to map
+                        var drawPolyline = new L.polyline(pointList, {
+                           color: 'red',
+                           weight: 2,
+                           opacity: 0.25,
+                           smoothFactor: 1
+                        });
+                        drawPolyline.addTo(layerGroup);
+                        pointList = [];
+                     };
+                     var date = new Date(data.events[index].geometry[0].date);
+                     var eventMarker = L.marker([data.events[index].geometry[0].coordinates[1], data.events[index].geometry[0].coordinates[0]]);
+                     eventMarker.addTo(layerGroup)
+                       //marker description with date
+                        .bindPopup(`${data.events[index].title} -\n Date/Time: ${date.toString()}`); 
+                  }
+                  else {
+                     for (let i = 0; i < data.events[index].geometry[0].coordinates[0].length; i++) {
+                        polygonPoints.push([data.events[index].geometry[0].coordinates[0][i][1], data.events[index].geometry[0].coordinates[0][i][0]]);
+                     };
+                     var polygon = new L.polygon(polygonPoints, {
+                        color: 'orange',
+                        opacity: 0.25,
+                     });
+                     polygon.addTo(layerGroup);
+                     polygonPoints = [];
+                  };
+               }
+               displayMessage(`${eventData.length} event(s) found between ${dateStart} and ${dateEnd}`);
+            } else {
+               displayMessage(`No event found in this area between ${dateStart} and ${dateEnd}`);
+            };
+         });
    }
 };
 
@@ -231,10 +147,8 @@ function dataPull() {
 function getCityCoord(event) {
    event.preventDefault();
 
+   //variables
    let newCity = searchText.value;
-
-   console.log(`getting city coordinates from ${searchText.value}`); //Test code
-   //psuedo code: get coordinates from user input with API.
 
    if (newCity) {
 
@@ -247,25 +161,22 @@ function getCityCoord(event) {
             if (response.ok) {
                response.json().then(function (data) {
                   console.log(data);
-                  if (data.length > 0) {  // checks if the city found 
+                  // checks if the city found 
+                  if (data.length > 0) {  
                      errorHandle.style.backgroundColor = "hsla(0, 0%, 20%, .7)";
                      const checkCity = data[0].name;
                      displayMessage(`Showing area for ${checkCity}`)
-                     console.log(checkCity);
                      const nameArray = newCity.split('');
                      nameArray[0] = nameArray[0].toUpperCase();
                      newCity = nameArray.join('');
-                     if (checkCity.toLowerCase() == newCity.toLowerCase()) {  // checks (found city === entered city)
-                        console.log(data);
+                      // checks found city === entered city
+                     if (checkCity.toLowerCase() == newCity.toLowerCase()) { 
                         const lat = data[0].lat;
                         const lon = data[0].lon;
-                        console.log(lat);
-                        console.log(lon);
                         L.marker([data[0].lat, data[0].lon])
                            .addTo(layerGroup)
                            .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
-                        console.log(bounds.getCenter());
                      }
                   } else {
                      displayMessage("That is not a city, dummy")
@@ -279,7 +190,6 @@ function getCityCoord(event) {
 
 // Data Refresh Function
 function dataRefresh() {
-   console.log("getting and setting new variable options then calling dataPull");
 
    //clear all existing point
    layerGroup.clearLayers();
@@ -332,19 +242,19 @@ function getStoredLocation() {
 
 ///// Creating the map /////
 function createMap() {
-   
-map = L.map('map').setView([storedLat, storedLon], 10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-   maxZoom: 19,
-   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-layerGroup = L.layerGroup().addTo(map);
-bounds = map.getBounds();
 
-minLong = bounds.getWest();
-maxLong = bounds.getEast();
-minLat = bounds.getSouth();
-maxLat = bounds.getNorth();
+   map = L.map('map').setView([storedLat, storedLon], 10);
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+   }).addTo(map);
+   layerGroup = L.layerGroup().addTo(map);
+   bounds = map.getBounds();
+
+   minLong = bounds.getWest();
+   maxLong = bounds.getEast();
+   minLat = bounds.getSouth();
+   maxLat = bounds.getNorth();
 }
 
 //initial pull of data points from EONET
@@ -361,7 +271,7 @@ function setDatePicker() {
    let dd = String(today.getDate()).padStart(2, '0');
    let mm = String(today.getMonth() + 1).padStart(2, '0');
    let yyyy = today.getFullYear();
-   today = yyyy + '-' + mm + '-' + dd;  
+   today = yyyy + '-' + mm + '-' + dd;
    //get today's date minus 30 days 
    let todayMinus = new Date();
    todayMinus.setDate(todayMinus.getDate() - 90); // today minus 30 days
@@ -377,8 +287,6 @@ function setDatePicker() {
    // future date restriction
    dateFrom.setAttribute("max", today);
    dateTo.setAttribute("max", today);
-   console.log(`date Start is: ${dateStart}`);
-   console.log(`date End is: ${dateEnd}`);
 };
 
 function displayMessage(string) {
@@ -386,7 +294,8 @@ function displayMessage(string) {
    errorHandle.textContent = string;
 };
 
-
+//running init functions now so event handlers can recognize them
+//getStoredLocation and setDatePicker are running in and out of init, because we couldn't get them to run synchronously, and we need the variables set in them to be used in createMap and dataPull
 getStoredLocation();
 setDatePicker();
 init();
@@ -394,7 +303,6 @@ init();
 
 
 ////// EVENT HANDLERS //////
-
 
 // Map move event -- triggers new boundaries
 map.on('moveend', function () {
@@ -426,7 +334,7 @@ $("#search-bar").on("submit", function (event) {
 dataRefreshBtn.on("click", function () {
    dataRefreshBtn.attr('disabled', true);
    dataRefresh();
-   let mapCenter = [(minLat + maxLat)/ 2, (minLong + maxLong)/ 2];
+   let mapCenter = [(minLat + maxLat) / 2, (minLong + maxLong) / 2];
    localStorage.setItem("Lat", mapCenter[0]);
    localStorage.setItem("Lon", mapCenter[1]);
 });
@@ -436,10 +344,3 @@ $('#menu-open-btn').on('click', menuToggleHide);
 
 //Close Options Menu
 $('#menu-close-btn').on('click', menuToggleHide);
-
-
-
-
-
-
-
