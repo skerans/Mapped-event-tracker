@@ -135,7 +135,9 @@
               data-event-type='waterColor' checked /> Water Color
           </label>
         </div>
+        
       </div>
+      <div id="menu-body-bottom-gradient"></div>
     </form>
 
 
@@ -165,34 +167,46 @@
   </main>
 
   <!-- Modals -->
-  <section class="modal hidden">
+  <section class="modal hidden" id='help-modal'>
     <div class="modal-background">
       <div class="modal-container">
         <div class="modal-header">
-          <i class="far fa-times" id='modal-close-btn'></i>
+          <i class="far fa-times modal-close-btn"></i>
+          <h2>Help</h2>
+        </div>
+        <div class="modal-body">
+          <h3>How to find a specific location?</h3>
+          <img class='modal-img' src="assets/img/search-demo.gif" alt="">
+          <p>In the top left corner, you'll find a search bar that can be used to search for any city in the world.</p>
+
+          <h3>How to look for specific events in a timeframe?</h3>
+          <img class='modal-img' src="assets/img/menu-demo.gif" alt="">
+          <p>In the upper right hand corner, you'll find a menu button that will allow you to adjust the events you
+            would like to see appear on the map, as well as the timeframe that those events occured in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal hidden" id='about-modal'>
+    <div class="modal-background">
+      <div class="modal-container">
+        <div class="modal-header">
+          <i class="far fa-times modal-close-btn"></i>
           <h2>About</h2>
         </div>
         <div class="modal-body">
           <h3>What is the Mapped Event Tracker?</h3>
-          <p>Thanks for checking our app out! This app is designed to show what natural events are currently happening
+          <p>Thanks for checking our app out! This app is designed to show natural events that have occurred
             around the world with only a couple of clicks required.</p>
 
-          <h3>How to find a specific location?</h3>
-          <p>In the top left corner, you'll find a search bar that can be used to search for any city in the world.</p>
+          <p>This app was deisgned and developed by a small team of four who share a love for maps and data. We hope you enjoy it! 
+          </p>
 
-          <h3>How to look for specific eventsin a timeframe?</h3>
-          <p>In the upper right hand corner, you'll find a menu button that will allow you to adjust the events you
-            would like to see appear on the map, as well as the timeframe that those events occured in.</p>
+          <p>&#127759; &#128512; &#128591;	</p>
 
-          <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim
-            quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi
-            voluptate temporibus!</p>
-
-          <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim
-            quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi
-            voluptate temporibus!</p>
+          <h3>Github Repo</h3>
+          <a href="https://github.com/skerans/Mapped-event-tracker">&#128073; &nbsp; Here</a>
         </div>
       </div>
     </div>

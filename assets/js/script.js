@@ -309,13 +309,19 @@ map.on('moveend', function () {
    getNewBoundaries();
 });
 
-//Open Modal
-$('.modal-btn').on('click', function (evt) {
-   openModal(evt);
-});
+//Open Modals
+$('#help-btn').on('click', function () {
+   $('#help-modal').removeClass('hidden');
+   $('header, #map, main.overlay').addClass('blur');
+})
+
+$('#about-btn').on('click', function () {
+   $('#about-modal').removeClass('hidden');
+   $('header, #map, main.overlay').addClass('blur');
+})
 
 // Close Modal
-$('#modal-close-btn').on('click', closeModal);
+$('.modal-close-btn').on('click', closeModal);
 $('.modal-background').on('click', closeModal);
 
 // Prevents clicking through the modal container and onto to back to close it
