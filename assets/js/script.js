@@ -1,6 +1,5 @@
 ///// GLOBAL VARIABLES /////
-let eventCount = 20;
-let searchBtn = document.getElementById("search-btn");
+let eventCount = 60;
 let searchText = document.getElementById("search-city");
 let dataRefreshBtn = $("#data-refresh-btn");
 const dateFrom = document.getElementById("from");
@@ -147,7 +146,7 @@ function dataPull() {
 function getCityCoord(event) {
    event.preventDefault();
 
-   //variables
+   // get city name
    let newCity = searchText.value;
 
    if (newCity) {
@@ -166,10 +165,7 @@ function getCityCoord(event) {
                      errorHandle.style.backgroundColor = "hsla(0, 0%, 20%, .7)";
                      const checkCity = data[0].name;
                      displayMessage(`Showing area for ${checkCity}`)
-                     const nameArray = newCity.split('');
-                     nameArray[0] = nameArray[0].toUpperCase();
-                     newCity = nameArray.join('');
-                      // checks found city === entered city
+                     // checks found city === entered city
                      if (checkCity.toLowerCase() == newCity.toLowerCase()) { 
                         const lat = data[0].lat;
                         const lon = data[0].lon;
@@ -177,6 +173,9 @@ function getCityCoord(event) {
                            .addTo(layerGroup)
                            .bindPopup(`${checkCity} - ${newCity}`); // add marker
                         map.setView([lat, lon], 10) //set map to location, zoom to 10
+                        localStorage.setItem("Lat", lat);
+                        localStorage.setItem("Lon", lon);
+                        dataPull();
                      }
                   } else {
                      displayMessage("That is not a city, dummy")
@@ -344,3 +343,9 @@ $('#menu-open-btn').on('click', menuToggleHide);
 
 //Close Options Menu
 $('#menu-close-btn').on('click', menuToggleHide);
+
+//Set toDate after fromDate chosen
+$("#to").on('click', function (event) {
+   const minDate = dateFrom.value;
+   dateTo.setAttribute("min", minDate);
+});
