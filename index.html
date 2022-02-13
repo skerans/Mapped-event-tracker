@@ -8,7 +8,8 @@
   <title>Document</title>
 
   <!-- jQuery CDN -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
   <!-- Leaflet CSS/JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -26,7 +27,8 @@
 
   <!-- Normalize & Pure CSS Libraries -->
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+    integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
 
   <!-- Local CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -38,7 +40,6 @@
       <i class="far fa-fire-alt"></i>
       <h1>Mapped Event Tracker</h1>
     </div>
-
   </header>
 
   <main class="overlay">
@@ -49,65 +50,118 @@
 
 
     <form id="option-menu" class="pure-form pure-form-aligned menu">
-        <div id="menu-header">
+      <div id="menu-header">
         <h4>Options</h4>
         <i class="far fa-times" id='menu-close-btn'></i>
+      </div>
+
+      <div id='menu-body'>
+        <div class='menu-section'>
+          <h5>Date Range</h5>
+          <label for="from">From</label>
+          <input type="date" id="from" name="from" class="from pure-u-5-5" placeholder="mm/dd/yyyy" value="">
+          <label for="to">To</label>
+          <input type="date" id="to" name="to" class="to pure-u-5-5" placeholder="mm/dd/yyyy">
         </div>
 
-        <div id='menu-body'>
-          <div class='menu-section'>
-            <h5>Date Range</h5>
-            <label for="from">From</label>
-            <input type="date" id="from" name="from" class="from pure-u-5-5" placeholder="mm/dd/yyyy" value="">
-            <label for="to">To</label>
-            <input type="date" id="to" name="to" class="to pure-u-5-5" placeholder="mm/dd/yyyy">
-          </div>
+        <div class='menu-section' id="event-types">
+          <h5>Event Types</h5>
+          <label for="checkbox-all" class="pure-checkbox">
+            <input type="checkbox" id="checkbox-all" value="" checked /> All Types
+          </label>
 
-          <div class='menu-section' id="event-types">
-            <h5>Event Types</h5>
-            <label for="checkbox-all" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-all" name="checkbox-all" checked /> All Types
-            </label>
-            <label for="checkbox-one" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-one" name="checkbox-one" /> Wildfires
-            </label>
-            <label for="checkbox-two" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-two" name="checkbox-two" /> Severe Storms
-            </label>
-            <label for="checkbox-three" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-three" name="checkbox-three" /> Volcanoes
-            </label>
-            <label for="checkbox-four" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-four" name="checkbox-four" /> Icebergs
-            </label>
-            <label for="checkbox-five" class="pure-checkbox">
-              <input type="checkbox" id="checkbox-radio-option-five" name="checkbox-five" /> Earthquakes
-            </label>
-          </div>
-       </div>
+          <label for="checkbox-wildfire" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-wildfire" data-event-type='wildfires' value=""
+              checked /> Wildfires
+          </label>
+
+          <label for="checkbox-severe-storms" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-severe-storms" data-event-type='severeStorms'
+              value="" checked /> Severe Storms
+          </label>
+
+          <label for="checkbox-volcanoes" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-volcanoes" data-event-type='volcanoes'
+              value="" checked /> Volcanoes
+          </label>
+
+          <label for="checkbox-sea-lake-ice" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-sea-lake-ice" value=""
+              data-event-type='seaLakeIce' checked /> Icebergs
+          </label>
+
+          <label for="checkbox-earthquakes" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-earthquakes" value=""
+              data-event-type='earthquakes' checked /> Earthquakes
+          </label>
+
+          <label for="checkbox-drought" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-drought" value="" data-event-type='drought'
+              checked /> Drought
+          </label>
+
+          <label for="checkbox-dust-haze" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-dust-haze" value="" data-event-type='dustHaze'
+              checked /> Dust Haze
+          </label>
+
+          <label for="checkbox-floods" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-floods" value="" data-event-type='floods'
+              checked /> Floods
+          </label>
+
+          <label for="checkbox-landslides" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-landslides" value=""
+              data-event-type='landslides' checked /> Landslides
+          </label>
+
+          <label for="checkbox-manmade" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-manmade" value="" data-event-type='manmade'
+              checked /> Manmade
+          </label>
+
+          <label for="checkbox-snow" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-snow" value="" data-event-type='snow'
+              checked /> Snow
+          </label>
+
+          <label for="checkbox-temp-extremes" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-temp-extremes" value=""
+              data-event-type='tempExtremes' checked /> Temp. Extremes
+          </label>
+
+          <label for="checkbox-water-color" class="pure-checkbox">
+            <input type="checkbox" class='single-event-type' id="checkbox-water-color" value=""
+              data-event-type='waterColor' checked /> Water Color
+          </label>
+        </div>
+      </div>
     </form>
 
 
-      <form id="search-bar" class="pure-form">
-        <input type="text" class="pure-input-2-3" id="search-city" placeholder="search" />
-        <button type="submit" class="pure-button btn-secondary" id="search-btn">Search</button>
-      </form>
-      <!-- About/Help UI -->
+    <form id="search-bar" class="pure-form">
+      <input type="text" class="pure-input-2-3" id="search-city" placeholder="search" />
+      <button type="submit" class="pure-button btn-secondary" id="search-btn">Search</button>
+    </form>
+    <!-- About/Help UI -->
 
-      <!-- Buttons -->
-      <button type="button" class="pure-button btn-primary" id='data-refresh-btn' disabled><i class="fas fa-sync-alt"></i>Refresh Map</button>
- 
+    <!-- Buttons -->
+    <button type="button" class="pure-button btn-primary" id='data-refresh-btn' disabled><i
+        class="fas fa-sync-alt"></i>Refresh Map</button>
+
 
     <div id='bottom-right-btn-group'>
-      <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i class="far fa-map-marker-question" data-modal='help'></i></button>
-      <button class="pure-button btn-secondary modal-btn" id='about-btn' data-modal='about'><i class="far fa-info" data-modal='about'></i>About</button>
+      <button class="pure-button btn-secondary modal-btn" id='help-btn' data-modal='help'><i
+          class="far fa-map-marker-question" data-modal='help'></i></button>
+      <button class="pure-button btn-secondary modal-btn" id='about-btn' data-modal='about'><i class="far fa-info"
+          data-modal='about'></i>About</button>
     </div>
-   
+
     <!-- Error Message -->
     <div id="error-message" class="hide">
       <p>Error</p>
     </div>
-      
+
   </main>
 
   <!-- Modals -->
@@ -120,34 +174,31 @@
         </div>
         <div class="modal-body">
           <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+          <p>Thanks for checking our app out! This app is designed to show what natural events are currently happening
+            around the world with only a couple of clicks required.</p>
+
+          <h3>How to find a specific location?</h3>
+          <p>In the top left corner, you'll find a search bar that can be used to search for any city in the world.</p>
+
+          <h3>How to look for specific eventsin a timeframe?</h3>
+          <p>In the upper right hand corner, you'll find a menu button that will allow you to adjust the events you
+            would like to see appear on the map, as well as the timeframe that those events occured in.</p>
 
           <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim
+            quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi
+            voluptate temporibus!</p>
 
           <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
-
-          <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
-
-          <h3>What is the Mapped Event Tracker?</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi voluptate temporibus!</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius numquam atque blanditiis accusamus enim
+            quaerat fuga repellendus dicta officiis quos tempora quam, fugit temporibus natus labore! Odit sequi
+            voluptate temporibus!</p>
         </div>
       </div>
     </div>
   </section>
 
- 
-
   <div id="map"></div>
-
-
-
-
-
-
 
   <script src="./assets/js/script.js"></script>
 </body>

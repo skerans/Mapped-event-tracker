@@ -43,7 +43,7 @@ Root Directory
     │
     └─── images (folder containing all image resources)
     │
-    └─── scripts (folder containing JavaScript files)
+    └─── js (folder containing JavaScript files)
 ```
 
 ## Built With

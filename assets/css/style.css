@@ -289,5 +289,8 @@ div.modal-header {
   position: absolute;
   left: 10px;
   top: 90vh;
+  padding: 5px 10px;
   z-index: 10;
+  color: white;
+  background-color: hsla(0, 0%, 20%, .8);
 }
