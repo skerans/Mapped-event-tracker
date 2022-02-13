@@ -263,7 +263,7 @@ function init() {
    dataPull();
 }
 
-// setting default date range to 30 days and future date would not be allowed
+// setting default date range to ## days and future date would not be allowed
 function setDatePicker() {
    //get today's date 
    let today = new Date();
@@ -271,9 +271,9 @@ function setDatePicker() {
    let mm = String(today.getMonth() + 1).padStart(2, '0');
    let yyyy = today.getFullYear();
    today = yyyy + '-' + mm + '-' + dd;
-   //get today's date minus 30 days 
+   //get today's date minus 90 days 
    let todayMinus = new Date();
-   todayMinus.setDate(todayMinus.getDate() - 90); // today minus 30 days
+   todayMinus.setDate(todayMinus.getDate() - 90); //today minus 90 days
    dd = String(todayMinus.getDate()).padStart(2, '0');
    mm = String(todayMinus.getMonth() + 1).padStart(2, '0');
    yyyy = todayMinus.getFullYear();
@@ -294,7 +294,7 @@ function displayMessage(string) {
 };
 
 //running init functions now so event handlers can recognize them
-//getStoredLocation and setDatePicker are running in and out of init, because we couldn't get them to run synchronously, and we need the variables set in them to be used in createMap and dataPull
+//getStoredLocation and setDatePicker are running in and out of init, because we couldn't get them to run asynchronously, and we need the variables set in them to be used in createMap and dataPull
 getStoredLocation();
 setDatePicker();
 init();
